@@ -5,14 +5,15 @@ namespace App\Http\Controllers\AdminController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class WorkOrderController extends Controller
+class TimeSheetController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin-views.workorder');
+        return view('admin-views.timesheet');
     }
 
     /**

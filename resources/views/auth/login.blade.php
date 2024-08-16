@@ -16,9 +16,10 @@
 
         <div class="card-body">
             <form method="POST"
-                  action="#"
+                  action="{{route('login')}}"
                   class="needs-validation"
                   novalidate="">
+                @csrf
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input id="email"
@@ -94,7 +95,7 @@
         </div>
     </div>
 {{--    <div class="text-muted mt-5 text-center">--}}
-{{--        Belum punya Akun? <a href="{{route('register')}}">Buat Akun Baru</a>--}}
+{{--        Belum punya Akun.blade.php? <a href="{{route('register')}}">Buat Akun.blade.php Baru</a>--}}
 {{--    </div>--}}
 @endsection
 
