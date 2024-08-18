@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
         name="viewport">
     <title>@yield('title') &mdash; Stisla</title>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <!-- General CSS Files -->
     <link rel="stylesheet"
