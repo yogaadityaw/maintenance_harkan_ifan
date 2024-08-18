@@ -35,6 +35,7 @@ use App\Http\Controllers\AdminController\DashboardController;
 //  Route untuk work order
     Route::get('/timesheet', [TimeSheetController::class, 'index'])->name('timesheet');
     Route::get('/workorder', [WorkorderController::class, 'index'])->name('workorder');
+    Route::post('/workorder/create', [WorkorderController::class, 'createWorkorder'])->name('workorder-create');
 
 //});
 //Route::get('/mencoba', function () {

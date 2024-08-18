@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\AdminController;
 
+use App\Helper\ApiResponseHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class WorkorderController extends Controller
 {
@@ -13,15 +15,38 @@ class WorkorderController extends Controller
      */
     public function index()
     {
-        return view('admin-views.workorder');
+        try {
+            $response = Http::get(env("API_BASE_URL") . '/workorder');
+            $workorder = ApiResponseHelper::extractData($response->json());
+            return view('admin-views.workorder', compact('workorder'));
+//            dd($workorder);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function createWorkorder(Request $request)
     {
-        //
+        try {
+            $apiRequest = Http::post(env("API_BASE_URL") . '/workorder', data: [
+                'work_order_name' => $request->input('workOrderBaru'),
+            ]);
+
+            $response = $apiRequest->json();
+
+            if($response['success']) {
+                return redirect()->back()->with('success', 'Work Order berhasil dibuat');
+            } else {
+             return redirect()->back()->with('error', 'Work Order gagal dibuat');
+            }
+            return view('admin-views.workorder');
+//            dd($workorder);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     /**
