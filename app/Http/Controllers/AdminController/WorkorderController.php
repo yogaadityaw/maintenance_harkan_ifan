@@ -13,16 +13,30 @@ class WorkorderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
+    {
+        try {
+            $response = Http::get(env("API_BASE_URL") . '/timesheet/' . $id);
+            $workorder = ApiResponseHelper::extractData($response->json());
+            return view('admin-views.workorder', compact('workorder'));
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    public function getWorkOrderList()
     {
         try {
             $response = Http::get(env("API_BASE_URL") . '/workorder');
             $workorder = ApiResponseHelper::extractData($response->json());
-            return view('admin-views.workorder', compact('workorder'));
-//            dd($workorder);
+            return $workorder;
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
+    }
+
+    public function addWorkOrder() {
+
     }
 
     /**
@@ -37,10 +51,10 @@ class WorkorderController extends Controller
 
             $response = $apiRequest->json();
 
-            if($response['success']) {
+            if ($response['success']) {
                 return redirect()->back()->with('success', 'Work Order berhasil dibuat');
             } else {
-             return redirect()->back()->with('error', 'Work Order gagal dibuat');
+                return redirect()->back()->with('error', 'Work Order gagal dibuat');
             }
             return view('admin-views.workorder');
 //            dd($workorder);

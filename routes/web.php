@@ -28,15 +28,17 @@ use App\Http\Controllers\AdminController\DashboardController;
 //Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 //Route::prefix('admin')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard-admin');
-    Route::get('/asset', [AssetController::class, 'index'])->name('asset');
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard-admin');
+Route::get('/asset', [AssetController::class, 'index'])->name('asset');
 
 
 //  Route untuk work order
-    Route::get('/timesheet', [TimeSheetController::class, 'index'])->name('timesheet');
-    Route::post('/timesheet/create', [TimeSheetController::class, 'createTimesheet'])->name('timesheet-create');
-    Route::get('/workorder/{id}', [WorkorderController::class, 'index'])->name('workorder');
-    Route::post('/workorder/create', [WorkorderController::class, 'createWorkorder'])->name('workorder-create');
+Route::get('/timesheet', [TimeSheetController::class, 'index'])->name('timesheet');
+Route::post('/timesheet/create', [TimeSheetController::class, 'createTimesheet'])->name('timesheet-create');
+Route::get('/workorder/get-workorder-data', [WorkorderController::class, 'getWorkOrderList'])->name('workorder-get-data');
+Route::get('/workorder/{id}', [WorkorderController::class, 'index'])->name('workorder');
+Route::post('/workorder/create', [WorkorderController::class, 'createWorkorder'])->name('workorder-create');
+Route::post('/workorder/add-workorder', [WorkorderController::class, 'addWorkOrder'])->name('workorder-add');
 
 //});
 //Route::get('/mencoba', function () {

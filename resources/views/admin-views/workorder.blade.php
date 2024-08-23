@@ -51,11 +51,7 @@
                                             <label>
                                                 <h6>Pilih WO</h6>
                                             </label>
-                                            <select class="form-control select2" multiple="">
-                                                @foreach($workorder as $wo)
-                                                    <option
-                                                        value="{{ $wo['id_work_order'] }}">{{$wo['id_work_order']}} {{ $wo['work_order_name'] }}</option>
-                                                @endforeach
+                                            <select class="form-control select2">
                                             </select>
                                         </div>
                                         <div class="col-md-4 d-flex align-items-end">
@@ -256,9 +252,9 @@
                         <input type="text" class="form-control" id="workOrderName" name="nameworkOrderBaru"
                                placeholder="Masukkan nama WorkOrder">
                         <br>
-{{--                        <label for="workOrderKode">Kode WorkOrder</label>--}}
-{{--                        <input type="text" class="form-control" id="workOrderKode" name="kodeworkOrderBaru"--}}
-{{--                               placeholder="Masukkan kode WorkOrder">--}}
+                        {{--                        <label for="workOrderKode">Kode WorkOrder</label>--}}
+                        {{--                        <input type="text" class="form-control" id="workOrderKode" name="kodeworkOrderBaru"--}}
+                        {{--                               placeholder="Masukkan kode WorkOrder">--}}
                     </div>
                     <!-- Tambahkan field lain sesuai kebutuhan -->
                 </div>
@@ -274,10 +270,52 @@
 
 
 
+
+
 @push('scripts')
     <!-- JS Libraies -->
     <script src="{{ asset('library/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <script src="{{ asset('library/prismjs/prism.js') }}"></script>
     <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
     <!-- Page Specific JS File -->
+
+    <script>
+        $(document).ready(function () {
+            function initializeSelect2() {
+                $('.select2').select2({
+                    placeholder: 'Select a work order',
+                    allowClear: true
+                });
+            }
+
+            initializeSelect2();
+
+            function loadWorkOrders() {
+                $.ajax({
+                    url: "{{ route('workorder-get-data') }}",
+                    method: 'GET',
+                    success: function (response) {
+                        let selectElement = $('.select2');
+                        selectElement.empty();
+
+                        selectElement.append('<option></option>');
+
+                        response.forEach(function (workOrder) {
+                            let option = new Option(workOrder.id_work_order + ' - ' + workOrder.work_order_name, workOrder.id_work_order);
+                            selectElement.append(option);
+                        });
+
+                        initializeSelect2();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("An error occurred while loading work orders:", error);
+                    }
+                });
+            }
+
+            loadWorkOrders();
+        });
+    </script>
 @endpush
+
+
