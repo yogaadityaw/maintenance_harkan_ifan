@@ -7,101 +7,33 @@
 
     <link rel="stylesheet"
           href="{{ asset('library/bootstrap-daterangepicker/daterangepicker.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('library/prismjs/themes/prism.min.css') }}">
 @endpush
 
-@section('main')<div class="main-content">
-    <section class="section">
-        <div class="section-header">
-            <h1>Timesheet</h1>
-        </div>
+@section('main')
+    <div class="main-content">
+        <section class="section">
+            <div class="section-header">
+                <h1>Timesheet</h1>
+            </div>
 
-        <div class="section-body">
+            <div class="section-body">
 
-            <div class="row">
-                <div class="col-12 col-md-12 col-lg-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Timesheet</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table-bordered table-md table">
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Tanggal</th>
-                                        <th> Nama Timesheet</th>
-                                        <th>Status</th>
-                                        <th>Aksi</th>
-
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>2017-01-09</td>
-                                        <td>Irwansyah Saputra</td>
-
-                                        <td>
-                                            <div class="badge badge-success">Active</div>
-                                        </td>
-                                        <td>  <div class="dropdown">
-                                                <button class="btn btn-outline-info dropdown-toggle" type="button"
-                                                        id="dropdownMenuButton-"
-                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                    <i class="fas fa-ellipsis-v"></i>
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fas fa-print"></i> Print
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fas fa-book"></i> Detail
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fas fa-edit"></i> Edit
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>2</td>
-                                        <td>2017-01-09</td>
-                                        <td>Rizal Fakhri</td>
-
-                                        <td>
-                                            <div class="badge badge-success">Active</div>
-                                        </td>
-                                        <td><a href="{{route('workorder')}}"
-                                               class="btn btn-success fas fa-book"></a>
-
-                                            <a href="#"
-                                               class="btn btn-warning fas fa-pencil"></a>
-
-                                            <a href="#"
-                                               class="btn btn-danger fas fa-trash"></a>
-
-                                        </td>
-                                    </tr>
-                                </table>
+                <div class="row">
+                    <div class="col-12 col-md-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Timesheet</h4>
                             </div>
-
-                            <div class="form-group col-md-2">
-                                <label>
-                                    <h6>Tanggal</h6>
-                                </label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
+                            <div class="card-body">
+                                <div class="form-group col-md-6">
+                                    <div class="row">
+                                        <button class="btn btn-info" data-toggle="modal"
+                                                data-target="#timeSheetModal">+ Tambah Timehseet
+                                        </button>
                                     </div>
-                                    <input type="text" class="form-control datepicker">
                                 </div>
-                            </div>
 
                             <div class="table-responsive">
                                 <table class="table-bordered table-md table">
@@ -109,47 +41,24 @@
                                         <th>No</th>
                                         <th>Tanggal</th>
                                         <th> Nama Timesheet</th>
-                                        <th>Status</th>
                                         <th>Aksi</th>
 
                                     </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>2017-02-09</td>
-                                        <td>Irwansyah Saputra</td>
+                                    @foreach($timesheet as $index => $item)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $item['timesheet_date'] ?? '-' }}</td> <!-- Menampilkan tanggal -->
+                                            <td>{{ $item['timesheet_name'] ?? '-' }}</td> <!-- Menampilkan nama timesheet -->
+                                            <td>
+                                                <!-- Tambahkan aksi seperti tombol edit/hapus di sini -->
+                                                <a href="{{ route('workorder', $item['id_timesheet']) }}" class="btn btn-success fas fa-book"></a>
 
-                                        <td>
-                                            <div class="badge badge-success">Active</div>
-                                        </td>
-                                        <td>  <div class="dropdown">
-                                                <button class="btn btn-outline-info dropdown-toggle" type="button"
-                                                        id="dropdownMenuButton-"
-                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                    <i class="fas fa-ellipsis-v"></i>
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fas fa-print"></i> Print
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fas fa-book"></i> Detail
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fas fa-edit"></i> Edit
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
                                 </table>
                             </div>
-
                         </div>
                         <div class="card-footer text-right">
                             <nav class="d-inline-block">
@@ -160,7 +69,8 @@
                                            tabindex="-1"><i class="fas fa-chevron-left"></i></a>
                                     </li>
                                     <li class="page-item active"><a class="page-link"
-                                                                    href="#">1 <span class="sr-only">(current)</span></a></li>
+                                                                    href="#">1 <span
+                                                class="sr-only">(current)</span></a></li>
                                     <li class="page-item">
                                         <a class="page-link"
                                            href="#">2</a>
@@ -179,14 +89,62 @@
 
             </div>
 
-        </div>
+    </div>
     </section>
-</div>
+    </div>
 @endsection
+
+{{--modal untuk menambah timesheet--}}
+
+<div class="modal fade" id="timeSheetModal" tabindex="-1" role="dialog" aria-labelledby="timeSheetModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form id="CreateTimesheet" method="POST" action="{{route('timesheet-create')}}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="timeSheetModalLabel">Tambah Timesheet</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Isi Form atau Konten Modal di sini -->
+                    @csrf
+                    @method('POST')
+                    <div class="form-group">
+
+                        <div class="form-group col-md4">
+                            <label for="tanggalTimeSheet">Tanggal Timesheet</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                </div>
+                                <input type="text" class="form-control datepicker" id="tanggalTimeSheet" name="tanggalTimeSheet">
+                            </div>
+                        </div>
+
+                        <label for="timeSheetName">Nama Timesheet</label>
+                        <input type="text" class="form-control" id="timeSheetName" name="nametimeSheetBaru"
+                               placeholder="Masukkan nama Timesheet">
+
+                    </div>
+                    <!-- Tambahkan field lain sesuai kebutuhan -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 @push('scripts')
     <!-- JS Libraies -->
     <script src="{{ asset('library/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ asset('library/prismjs/prism.js') }}"></script>
 
     <!-- Page Specific JS File -->
 @endpush

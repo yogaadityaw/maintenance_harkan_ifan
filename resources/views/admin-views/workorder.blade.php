@@ -16,9 +16,6 @@
 
 @section('main')
 
-
-
-
     <div class="main-content">
         <section class="section">
             <div class="section-header">
@@ -57,7 +54,7 @@
                                             <select class="form-control select2" multiple="">
                                                 @foreach($workorder as $wo)
                                                     <option
-                                                        value="{{ $wo['id_work_order'] }}">{{ $wo['work_order_name'] }}</option>
+                                                        value="{{ $wo['id_work_order'] }}">{{$wo['id_work_order']}} {{ $wo['work_order_name'] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -70,101 +67,7 @@
                                 </div>
                                 <div>
                                     <div class="container ">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="card bg-secondary">
-                                                    <div class="card-header justify-content-between">
-                                                        <h4>101</h4>
-                                                        <h4>Efisiensi Biaya</h4>
-                                                        <h4>80 Jam</h4>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="table-responsive">
-                                                            <table class="table-bordered table-md table">
-                                                                <tr>
-                                                                    <th>#</th>
-                                                                    <th>Name</th>
-                                                                    <th>Created At</th>
-                                                                    <th>Status</th>
-                                                                    <th>Action</th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>1</td>
-                                                                    <td>Irwansyah Saputra</td>
-                                                                    <td>2017-01-09</td>
-                                                                    <td>
-                                                                        <div class="badge badge-success">Active</div>
-                                                                    </td>
-                                                                    <td><a href="#"
-                                                                           class="btn btn-secondary">Detail</a></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>2</td>
-                                                                    <td>Hasan Basri</td>
-                                                                    <td>2017-01-09</td>
-                                                                    <td>
-                                                                        <div class="badge badge-success">Active</div>
-                                                                    </td>
-                                                                    <td><a href="#"
-                                                                           class="btn btn-secondary">Detail</a></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>3</td>
-                                                                    <td>Kusnadi</td>
-                                                                    <td>2017-01-11</td>
-                                                                    <td>
-                                                                        <div class="badge badge-danger">Not Active</div>
-                                                                    </td>
-                                                                    <td><a href="#"
-                                                                           class="btn btn-secondary">Detail</a></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>4</td>
-                                                                    <td>Rizal Fakhri</td>
-                                                                    <td>2017-01-11</td>
-                                                                    <td>
-                                                                        <div class="badge badge-success">Active</div>
-                                                                    </td>
-                                                                    <td><a href="#"
-                                                                           class="btn btn-secondary">Detail</a></td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-footer text-right">
-                                                        <button class="btn btn-success fas fa-book"></button>
-                                                        <button class="btn btn-warning fas fa-pencil"></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <div class="card bg-secondary">
-                                                    <div class="card-header">
-                                                        <h4>Card Action Button</h4>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        This is some text within a card body.
-                                                    </div>
-                                                    <div class="card-footer text-right">
-                                                        <button class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <div class="card bg-secondary">
-                                                    <div class="card-header">
-                                                        <h4>Card Action Button</h4>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        This is some text within a card body.
-                                                    </div>
-                                                    <div class="card-footer text-right">
-                                                        <button class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div class="row" id="workOrderCards">
 
                                         </div>
                                     </div>
@@ -330,7 +233,7 @@
     </div>
 @endsection
 
-{{--modal untuk menambah WorkOrder Baru--}}
+
 
 <!-- Modal untuk menambah WorkOrder -->
 <div class="modal fade" id="workOrderModal" tabindex="-1" role="dialog" aria-labelledby="workOrderModalLabel"
@@ -350,8 +253,12 @@
                     @method('POST')
                     <div class="form-group">
                         <label for="workOrderName">Nama WorkOrder</label>
-                        <input type="text" class="form-control" id="workOrderName" name="workOrderBaru"
+                        <input type="text" class="form-control" id="workOrderName" name="nameworkOrderBaru"
                                placeholder="Masukkan nama WorkOrder">
+                        <br>
+{{--                        <label for="workOrderKode">Kode WorkOrder</label>--}}
+{{--                        <input type="text" class="form-control" id="workOrderKode" name="kodeworkOrderBaru"--}}
+{{--                               placeholder="Masukkan kode WorkOrder">--}}
                     </div>
                     <!-- Tambahkan field lain sesuai kebutuhan -->
                 </div>
@@ -363,6 +270,9 @@
         </form>
     </div>
 </div>
+
+
+
 
 @push('scripts')
     <!-- JS Libraies -->

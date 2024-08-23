@@ -32,7 +32,7 @@ class WorkorderController extends Controller
     {
         try {
             $apiRequest = Http::post(env("API_BASE_URL") . '/workorder', data: [
-                'work_order_name' => $request->input('workOrderBaru'),
+                'work_order_name' => $request->input('nameworkOrderBaru'),
             ]);
 
             $response = $apiRequest->json();
