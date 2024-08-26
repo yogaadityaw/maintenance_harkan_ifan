@@ -27,7 +27,7 @@ class TimeSheetController extends Controller
             }
 
             return view('admin-views.timesheet', compact('timesheet'));
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             dd($e->getMessage());
         }
         return view('admin-views.timesheet');
@@ -61,26 +61,70 @@ class TimeSheetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function getDataById($id)
     {
-        //
+        try {
+            $response = Http::get(env("API_BASE_URL") . '/timesheet/' . $id);
+            $timesheet = ApiResponseHelper::extractData($response->json());
+
+            return response()->json([
+                'success' => true,
+                'data' => $timesheet
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memuat data timesheet.'
+            ]);
+        }
+    }
+
+    public function edit(Request $request)
+    {
+
+        try {
+            // Kirim data yang diupdate ke API
+            $response = Http::put(env("API_BASE_URL") . '/timesheet/' . $request->input('idTimeSheet'), [
+                'timesheet_date' => $request->input('tanggalTimeSheet'),
+
+                'timesheet_name' => $request->input('nametimeSheet'),
+            ]);
+
+            // Cek jika berhasil
+            if ($response->successful()) {
+                return redirect()->route('timesheet')->with('success', 'Timesheet berhasil diupdate!');
+            } else {
+                return redirect()->back()->with('error', 'Gagal mengupdate timesheet.');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function delete(Request $request)
     {
-        //
+        $id = $request->input('idTimeSheet');
+
+        try {
+            $response = Http::delete(env("API_BASE_URL") . '/timesheet/' . $id);
+
+            if ($response->successful()) {
+                return redirect()->route('timesheet')->with('success', 'Timesheet berhasil dihapus!');
+            } else {
+                return redirect()->back()->with('error', 'Gagal menghapus timesheet.');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.

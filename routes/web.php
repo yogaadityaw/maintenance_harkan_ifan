@@ -35,6 +35,9 @@ Route::get('/asset', [AssetController::class, 'index'])->name('asset');
 //  Route untuk work order
 Route::get('/timesheet', [TimeSheetController::class, 'index'])->name('timesheet');
 Route::post('/timesheet/create', [TimeSheetController::class, 'createTimesheet'])->name('timesheet-create');
+Route::get('/timesheet/get-timesheet-data/{id}', [TimeSheetController::class, 'getDataById'])->name('timesheet-get-data');
+Route::put('/timehseet/update', [TimeSheetController::class, 'edit'])->name('timesheet-edit');
+Route::delete('/timesheet/delete', [TimeSheetController::class, 'delete'])->name('timesheet-delete');
 Route::get('/workorder/get-workorder-data', [WorkorderController::class, 'getWorkOrderList'])->name('workorder-get-data');
 Route::get('/workorder/{id}', [WorkorderController::class, 'index'])->name('workorder');
 Route::post('/workorder/create', [WorkorderController::class, 'createWorkorder'])->name('workorder-create');
