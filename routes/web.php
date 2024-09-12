@@ -38,10 +38,17 @@ Route::post('/timesheet/create', [TimeSheetController::class, 'createTimesheet']
 Route::get('/timesheet/get-timesheet-data/{id}', [TimeSheetController::class, 'getDataById'])->name('timesheet-get-data');
 Route::put('/timehseet/update', [TimeSheetController::class, 'edit'])->name('timesheet-edit');
 Route::delete('/timesheet/delete', [TimeSheetController::class, 'delete'])->name('timesheet-delete');
+
+//  Route untuk work order
 Route::get('/workorder/get-workorder-data', [WorkorderController::class, 'getWorkOrderList'])->name('workorder-get-data');
 Route::get('/workorder/{id}', [WorkorderController::class, 'index'])->name('workorder');
 Route::post('/workorder/create', [WorkorderController::class, 'createWorkorder'])->name('workorder-create');
-Route::post('/workorder/add-workorder', [WorkorderController::class, 'addWorkOrder'])->name('workorder-add');
+//Route::post('/workorder/add-workorder', [WorkorderController::class, 'addWorkOrder'])->name('workorder-add');
+Route::patch('/workorder/update', [WorkorderController::class, 'editWorkorder'])->name('workorder-edit');
+
+
+//
+//Route::post('job-order/create', [WorkorderController::class, 'createJob'])->name('job-create');
 
 //});
 //Route::get('/mencoba', function () {

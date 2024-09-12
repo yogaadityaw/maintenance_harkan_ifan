@@ -15,10 +15,12 @@ class WorkorderController extends Controller
      */
     public function index($id)
     {
+        $idTimesheet = $id;
         try {
             $response = Http::get(env("API_BASE_URL") . '/timesheet/' . $id);
             $workorder = ApiResponseHelper::extractData($response->json());
-            return view('admin-views.workorder', compact('workorder'));
+            $workOrderData = $workorder['work_orders'];
+            return view('admin-views.workorder', compact('workOrderData', 'idTimesheet'));
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
@@ -35,23 +37,19 @@ class WorkorderController extends Controller
         }
     }
 
-    public function addWorkOrder() {
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function createWorkorder(Request $request)
     {
         try {
             $apiRequest = Http::post(env("API_BASE_URL") . '/workorder', data: [
                 'work_order_name' => $request->input('nameworkOrderBaru'),
+                'work_order_code' => $request->input('kodeworkOrderBaru'),
+                'timesheet_id' => $request->input('idTimesheet'),
             ]);
 
             $response = $apiRequest->json();
 
             if ($response['success']) {
+
                 return redirect()->back()->with('success', 'Work Order berhasil dibuat');
             } else {
                 return redirect()->back()->with('error', 'Work Order gagal dibuat');
@@ -66,9 +64,32 @@ class WorkorderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+
+    public function editWorkorder(Request $request)
     {
-        //
+
+        try {
+
+            $apiRequest = Http::patch(env("API_BASE_URL") . '/workorder/update-duration/' . $request->input('work_order_id'), data: [
+                'work_order_duration' => $request->input('work_order_duration'),
+            ]);
+
+            $response = $apiRequest->json();
+
+            if ($response['success']) {
+                return redirect()->back()->with('success', 'Work Order berhasil diubah');
+            } else {
+                return redirect()->back()->with('error', 'Work Order gagal diubah');
+        }
+
+        }catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    public function createJob(Request $request)
+    {
+
     }
 
     /**

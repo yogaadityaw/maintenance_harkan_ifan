@@ -86,7 +86,6 @@ class TimeSheetController extends Controller
             // Kirim data yang diupdate ke API
             $response = Http::put(env("API_BASE_URL") . '/timesheet/' . $request->input('idTimeSheet'), [
                 'timesheet_date' => $request->input('tanggalTimeSheet'),
-
                 'timesheet_name' => $request->input('nametimeSheet'),
             ]);
 

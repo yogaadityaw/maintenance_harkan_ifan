@@ -30,7 +30,7 @@
                             <div class="card-header">
                                 <div class="row col-12 justify-content-between">
                                     <h4>Workorder</h4>
-                                    <h4>80 Jam</h4>
+
                                 </div>
                             </div>
                             @if (session('error'))
@@ -47,13 +47,6 @@
 
                                 <div class="form-group col-md-6">
                                     <div class="row">
-                                        <div class="col-md-8">
-                                            <label>
-                                                <h6>Pilih WO</h6>
-                                            </label>
-                                            <select class="form-control select2">
-                                            </select>
-                                        </div>
                                         <div class="col-md-4 d-flex align-items-end">
                                             <button class="btn btn-info" data-toggle="modal"
                                                     data-target="#workOrderModal">+ Tambah WorkOrder
@@ -61,136 +54,50 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="container ">
-                                        <div class="row" id="workOrderCards">
 
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group col-md-2">
-                                    <label>
-                                        <h6>Tanggal</h6>
-                                    </label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" class="form-control datepicker">
-                                    </div>
-                                </div>
-
-                                <div class="table-responsive">
-                                    <table class="table-bordered table-md table">
-                                        <tr>
-                                            <th> No</th>
-                                            <th> Kode WO</th>
-                                            <th> Nama Pekerjaan</th>
-                                            <th> Total Jam Kerja</th>
-                                            <th> Aksi</th>
-
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>102</td>
-                                            <td>2017-01-09</td>
-                                            <td>
-                                                2 Jam
-                                            </td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-outline-info dropdown-toggle"
-                                                            type="button"
-                                                            id="dropdownMenuButton-"
-                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                        <i class="fas fa-ellipsis-v"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">
-                                                            <i class="fas fa-print"></i> Print
-                                                        </a>
-                                                        <a class="dropdown-item" href="#">
-                                                            <i class="fas fa-book"></i> Detail
-                                                        </a>
-                                                        <a class="dropdown-item" href="#">
-                                                            <i class="fas fa-edit"></i> Edit
-                                                        </a>
-                                                        <a class="dropdown-item" href="#">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </a>
+                                <div class="container">
+                                    <div class="row" id="workOrderCards">
+                                        @foreach ($workOrderData as $wo)
+                                            <div class="col-12 col-md-4 col-lg-4">
+                                                <div class="card card-primary">
+                                                    <div class="card-header justify-content-between">
+                                                        <h4>{{ $wo['work_order_code'] }}</h4>
+                                                        <h4>{{ $wo['work_order_name'] }}</h4>
+                                                        <h4>{{ $wo['work_order_duration'] }} Jam </h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p>Kode WorkOrder: {{ $wo['work_order_code'] }}</p>
+                                                        <p>Nama Pekerjaan: {{ $wo['work_order_name'] }}</p>
+                                                        <p>Total Jam Kerja: {{ $wo['work_order_duration'] }} Jam</p>
+                                                    </div>
+                                                    <div class="card-footer d-flex justify-content-end ">
+                                                        <button class="btn btn-warning fas fa-pencil mr-2"
+                                                                id="buttonEdit"
+                                                                data-toggle="modal"
+                                                                data-target="#workOrderEditModal"
+                                                                data-workorder-id="{{ $wo['id_work_order'] }}"
+                                                                data-workorder-duration="{{ $wo['work_order_duration'] }}">
+                                                        </button>
+                                                        <button class="btn btn-danger fas fa-trash "
+                                                                data-toggle="modal"
+                                                                data-target="#workOrderDeleteModal">
+                                                        </button>
                                                     </div>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Hasan Basri</td>
-                                            <td>2017-01-09</td>
-                                            <td>
-                                                <div class="badge badge-success">Active</div>
-                                            </td>
-                                            <td><a href="#"
-                                                   class="btn btn-secondary">Detail</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Kusnadi</td>
-                                            <td>2017-01-11</td>
-                                            <td>
-                                                <div class="badge badge-danger">Not Active</div>
-                                            </td>
-                                            <td><a href="#"
-                                                   class="btn btn-secondary">Detail</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Rizal Fakhri</td>
-                                            <td>2017-01-11</td>
-                                            <td>
-                                                <div class="badge badge-success">Active</div>
-                                            </td>
-                                            <td><a href="#"
-                                                   class="btn btn-secondary">Detail</a></td>
-                                        </tr>
-                                    </table>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
-
-                                <div class="dropdown d-inline mr-2">
-                                    <button class="btn btn-primary dropdown-toggle"
-                                            type="button"
-                                            id="dropdownMenuButton"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">
-                                        Tambah Baru
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item"
-                                           href="#">WO (123)</a>
-                                        <a class="dropdown-item"
-                                           href="#">WO (103)</a>
-                                        <a class="dropdown-item"
-                                           href="#">WO (105)</a>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <div class="col-md-4 d-flex align-items-end">
+                                            <button class="btn btn-info" data-toggle="modal"
+                                                    data-target="#workOrderModal">+ Tambah Pekerjaan
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <br>
-                                <br>
-
-
-                                {{--                                <div class="container d-inline-block col-12 bg-secondary rounded">--}}
-                                {{--                                    <div class="row">--}}
-                                {{--                                        <h4 class="">102</h4>--}}
-                                {{--                                        <h4>Kerjo</h4>--}}
-                                {{--                                        <h4>2 Jam</h4>--}}
-                                {{--                                    </div>--}}
-                                {{--                                </div>--}}
-                                {{--                            </div>--}}
                                 <div class="card-footer text-right">
                                     <nav class="d-inline-block">
                                         <ul class="pagination mb-0">
@@ -215,17 +122,15 @@
                                         </ul>
                                     </nav>
                                 </div>
-                                {{--                        </div>--}}
-                                {{--                    </div>--}}
-
-
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+    </div>
+
+    </section>
     </div>
 @endsection
 
@@ -248,13 +153,14 @@
                     @csrf
                     @method('POST')
                     <div class="form-group">
+                        <input type="hidden" value="{{{$idTimesheet}}}" name="idTimesheet">
+                        <label for="workOrderKode">Kode WorkOrder</label>
+                        <input type="text" class="form-control" id="workOrderKode" name="kodeworkOrderBaru"
+                               placeholder="Masukkan kode WorkOrder">
+                        <br>
                         <label for="workOrderName">Nama WorkOrder</label>
                         <input type="text" class="form-control" id="workOrderName" name="nameworkOrderBaru"
                                placeholder="Masukkan nama WorkOrder">
-                        <br>
-                        {{--                        <label for="workOrderKode">Kode WorkOrder</label>--}}
-                        {{--                        <input type="text" class="form-control" id="workOrderKode" name="kodeworkOrderBaru"--}}
-                        {{--                               placeholder="Masukkan kode WorkOrder">--}}
                     </div>
                     <!-- Tambahkan field lain sesuai kebutuhan -->
                 </div>
@@ -268,54 +174,115 @@
 </div>
 
 
+{{--modal untuk edit workorder--}}
 
-
-
+<div class="modal fade" id="workOrderEditModal" tabindex="-1" role="dialog" aria-labelledby="workOrderEditModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="workOrderEditModalLabel">Edit Durasi Work Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editWorkOrderForm" method="POST" action="{{ route('workorder-edit') }}">
+                @csrf
+                @method('PATCH')
+                <div class="modal-body">
+                    <input type="hidden" name="work_order_id" id="workOrderId">
+                    <div class="form-group">
+                        <label for="workOrderDuration">Durasi (Jam)</label>
+                        <input type="number" class="form-control" id="workOrderDuration" name="work_order_duration"
+                               min="0" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @push('scripts')
     <!-- JS Libraies -->
     <script src="{{ asset('library/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <script src="{{ asset('library/prismjs/prism.js') }}"></script>
     <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
-    <!-- Page Specific JS File -->
 
     <script>
-        $(document).ready(function () {
-            function initializeSelect2() {
-                $('.select2').select2({
-                    placeholder: 'Select a work order',
-                    allowClear: true
-                });
-            }
+        document.addEventListener('DOMContentLoaded', function () {
+            $('#workOrderEditModal').on('show.bs.modal', function (event) {
+                let button = $(event.relatedTarget);
+                let workOrderId = button.data('workorder-id');
+                let workOrderDuration = button.data('workorder-duration');
 
-            initializeSelect2();
-
-            function loadWorkOrders() {
-                $.ajax({
-                    url: "{{ route('workorder-get-data') }}",
-                    method: 'GET',
-                    success: function (response) {
-                        let selectElement = $('.select2');
-                        selectElement.empty();
-
-                        selectElement.append('<option></option>');
-
-                        response.forEach(function (workOrder) {
-                            let option = new Option(workOrder.id_work_order + ' - ' + workOrder.work_order_name, workOrder.id_work_order);
-                            selectElement.append(option);
-                        });
-
-                        initializeSelect2();
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("An error occurred while loading work orders:", error);
-                    }
-                });
-            }
-
-            loadWorkOrders();
+                let modal = $(this);
+                modal.find('#workOrderId').val(workOrderId);
+                modal.find('#workOrderDuration').val(workOrderDuration);
+            });
         });
     </script>
+
+    <script>
+        // $(document).on('click', '.edit-workorder-btn', function() {
+        //     var workOrderId = $(this).data('id');
+        //     var workOrderDuration = $(this).data('duration');
+        //
+        //     $('#workOrderId').val(workOrderId);
+        //     $('#workOrderDuration').val(workOrderDuration);
+        // });
+    </script>
+
+    {{--    <script>--}}
+
+    {{--        $(document).ready(function () {--}}
+    {{--            // Form submit event--}}
+    {{--            $('#CreateWorkOrder').on('submit', function (e) {--}}
+    {{--                e.preventDefault(); // Prevent default form submission--}}
+
+    {{--                let formData = $(this).serialize();--}}
+
+    {{--                $.ajax({--}}
+    {{--                    url: $(this).attr('action'),--}}
+    {{--                    type: 'POST',--}}
+    {{--                    data: formData,--}}
+    {{--                    success: function (response) {--}}
+    {{--                        // Buat card baru dengan data dari respons--}}
+    {{--                        let newCard = `--}}
+    {{--                    <div class="col-12 col-md-4 col-lg-4">--}}
+    {{--                        <div class="card card-primary">--}}
+    {{--                            <div class="card-header">--}}
+    {{--                                <h4>${response.name}</h4>--}}
+    {{--                                <div class="card-header-action">--}}
+    {{--                                    <a href="#" class="btn btn-primary">View All</a>--}}
+    {{--                                </div>--}}
+    {{--                            </div>--}}
+    {{--                            <div class="card-body">--}}
+    {{--                                <p>Kode WorkOrder: ${response.kode}</p>--}}
+    {{--                            </div>--}}
+    {{--                        </div>--}}
+    {{--                    </div>--}}
+    {{--                `;--}}
+
+    {{--                        // Tambahkan card baru ke dalam container--}}
+    {{--                        $('#workOrderCards').append(newCard);--}}
+
+    {{--                        // Tutup modal setelah sukses--}}
+    {{--                        $('#workOrderModal').modal('hide');--}}
+    {{--                    },--}}
+    {{--                    error: function (xhr, status, error) {--}}
+    {{--                        console.error("An error occurred while creating the work order:", error);--}}
+    {{--                        // Handle error (tampilkan pesan kesalahan, dll)--}}
+    {{--                    }--}}
+    {{--                });--}}
+    {{--            });--}}
+    {{--        });--}}
+
+    {{--    </script>--}}
+    <!-- Page Specific JS File -->
 @endpush
 
 
