@@ -30,7 +30,6 @@
                             <div class="card-header">
                                 <div class="row col-12 justify-content-between">
                                     <h4>Workorder</h4>
-
                                 </div>
                             </div>
                             @if (session('error'))
@@ -54,7 +53,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="container">
                                     <div class="row" id="workOrderCards">
                                         @foreach ($workOrderData as $wo)
@@ -88,16 +86,23 @@
                                         @endforeach
                                     </div>
                                 </div>
+                                <div class="container bg-light">
+                                    <div class="row rounded w-100 p-2 mb-2 d-flex align-items-center justify-content-between">
+                                        <h5 class="text-primary mb-0">Pekerjaan</h5>
+                                        <button type="button" class="btn btn-link text-primary mb-0">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="form-group col-md-12">
                                         <div class="col-md-4 d-flex align-items-end">
                                             <button class="btn btn-info" data-toggle="modal"
-                                                    data-target="#workOrderModal">+ Tambah Pekerjaan
+                                                    data-target="#jobModal">+ Tambah Pekerjaan
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="card-footer text-right">
                                     <nav class="d-inline-block">
                                         <ul class="pagination mb-0">
@@ -128,9 +133,6 @@
                 </div>
             </div>
         </section>
-    </div>
-
-    </section>
     </div>
 @endsection
 
@@ -173,9 +175,7 @@
     </div>
 </div>
 
-
 {{--modal untuk edit workorder--}}
-
 <div class="modal fade" id="workOrderEditModal" tabindex="-1" role="dialog" aria-labelledby="workOrderEditModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -206,6 +206,66 @@
     </div>
 </div>
 
+<div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="jobModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <form id="createJob" method="" action="">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="jobModalLabel">Tambah Pekerjaan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-3">
+                    @csrf
+                    @method('POST')
+                    <div id="jobsContainer">
+                        <div class="job-section">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <p class="font-weight-bold p-2 mb-0" id="jobTitle1">Pekerjaan 1</p>
+                                <button type="button" class="btn btn-link text-danger remove-job d-none"
+                                        aria-label="Remove">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td class="px-2">
+                                        <input type="text" class="form-control" name="jobDate[]"
+                                               placeholder="Tanggal Pekerjaan">
+                                    </td>
+                                    <td class="px-2">
+                                        <input type="text" class="form-control" name="jobName[]"
+                                               placeholder="Nama Pekerjaan">
+                                    </td>
+                                    <td class="px-2">
+                                        <input type="text" class="form-control" name="jobWorkOrder[]"
+                                               placeholder="WorkOrder">
+                                    </td>
+                                    <td class="px-2">
+                                        <div class="d-flex">
+                                            <input type="text" class="form-control" name="jobDuration[]"
+                                                   placeholder="Durasi Pengerjaan">
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-link text-primary" id="addMore">+ Tambah Pekerjaan</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
 @push('scripts')
     <!-- JS Libraies -->
     <script src="{{ asset('library/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
@@ -227,62 +287,66 @@
     </script>
 
     <script>
-        // $(document).on('click', '.edit-workorder-btn', function() {
-        //     var workOrderId = $(this).data('id');
-        //     var workOrderDuration = $(this).data('duration');
-        //
-        //     $('#workOrderId').val(workOrderId);
-        //     $('#workOrderDuration').val(workOrderDuration);
-        // });
+        document.addEventListener('DOMContentLoaded', function () {
+            const jobsContainer = document.getElementById('jobsContainer');
+            let jobCount = 1;
+
+            function updateJobTitles() {
+                const jobSections = jobsContainer.querySelectorAll('.job-section');
+                jobSections.forEach((section, index) => {
+                    const jobTitle = section.querySelector('p');
+                    jobTitle.textContent = `Pekerjaan ${index + 1}`;
+                    const removeButton = section.querySelector('.remove-job');
+                    removeButton.classList.toggle('d-none', index === 0);
+                });
+            }
+
+            document.getElementById('addMore').addEventListener('click', function () {
+                jobCount++;
+                const newJobSection = document.createElement('div');
+                newJobSection.classList.add('job-section');
+                newJobSection.innerHTML = `
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="font-weight-bold p-2 mb-0">Pekerjaan ${jobCount}</p>
+                <button type="button" class="btn btn-link text-danger remove-job" aria-label="Remove">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td class="px-2">
+                        <input type="text" class="form-control" name="jobDate[]" placeholder="Tanggal Pekerjaan">
+                    </td>
+                    <td class="px-2">
+                        <input type="text" class="form-control" name="jobName[]" placeholder="Nama Pekerjaan">
+                    </td>
+                    <td class="px-2">
+                        <input type="text" class="form-control" name="jobWorkOrder[]" placeholder="WorkOrder">
+                    </td>
+                    <td class="px-2">
+                        <input type="text" class="form-control" name="jobDuration[]" placeholder="Durasi Pengerjaan">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        `;
+                jobsContainer.appendChild(newJobSection);
+                updateJobTitles();
+            });
+
+            jobsContainer.addEventListener('click', function (event) {
+                if (event.target.closest('.remove-job')) {
+                    event.target.closest('.job-section').remove();
+                    jobCount--;
+                    updateJobTitles();
+                }
+            });
+
+            updateJobTitles();
+        });
     </script>
 
-    {{--    <script>--}}
-
-    {{--        $(document).ready(function () {--}}
-    {{--            // Form submit event--}}
-    {{--            $('#CreateWorkOrder').on('submit', function (e) {--}}
-    {{--                e.preventDefault(); // Prevent default form submission--}}
-
-    {{--                let formData = $(this).serialize();--}}
-
-    {{--                $.ajax({--}}
-    {{--                    url: $(this).attr('action'),--}}
-    {{--                    type: 'POST',--}}
-    {{--                    data: formData,--}}
-    {{--                    success: function (response) {--}}
-    {{--                        // Buat card baru dengan data dari respons--}}
-    {{--                        let newCard = `--}}
-    {{--                    <div class="col-12 col-md-4 col-lg-4">--}}
-    {{--                        <div class="card card-primary">--}}
-    {{--                            <div class="card-header">--}}
-    {{--                                <h4>${response.name}</h4>--}}
-    {{--                                <div class="card-header-action">--}}
-    {{--                                    <a href="#" class="btn btn-primary">View All</a>--}}
-    {{--                                </div>--}}
-    {{--                            </div>--}}
-    {{--                            <div class="card-body">--}}
-    {{--                                <p>Kode WorkOrder: ${response.kode}</p>--}}
-    {{--                            </div>--}}
-    {{--                        </div>--}}
-    {{--                    </div>--}}
-    {{--                `;--}}
-
-    {{--                        // Tambahkan card baru ke dalam container--}}
-    {{--                        $('#workOrderCards').append(newCard);--}}
-
-    {{--                        // Tutup modal setelah sukses--}}
-    {{--                        $('#workOrderModal').modal('hide');--}}
-    {{--                    },--}}
-    {{--                    error: function (xhr, status, error) {--}}
-    {{--                        console.error("An error occurred while creating the work order:", error);--}}
-    {{--                        // Handle error (tampilkan pesan kesalahan, dll)--}}
-    {{--                    }--}}
-    {{--                });--}}
-    {{--            });--}}
-    {{--        });--}}
-
-    {{--    </script>--}}
-    <!-- Page Specific JS File -->
 @endpush
 
 

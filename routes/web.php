@@ -47,19 +47,6 @@ Route::post('/workorder/create', [WorkorderController::class, 'createWorkorder']
 Route::patch('/workorder/update', [WorkorderController::class, 'editWorkorder'])->name('workorder-edit');
 
 
-//
-//Route::post('job-order/create', [WorkorderController::class, 'createJob'])->name('job-create');
-
-//});
-//Route::get('/mencoba', function () {
-//    return view('stisla.pages.dashboard.blade.php-ecommerce-dashboard.blade.php');
-//});
-
-//Route::prefix('auth')->group(function () {
-//Route::get('')
-//});
-
-
 Route::get('/unauthorized', function () {
     return view('error-views.error-403');
 })->name('unauthorized');
