@@ -234,6 +234,8 @@
     <script src="{{ asset('library/prismjs/prism.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/id.min.js"></script>
+    <script src="{{ asset('library/sweetalert/dist/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('js/page/modules-sweetalert.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             $('#editTimeSheetModal').on('show.bs.modal', function (event) {

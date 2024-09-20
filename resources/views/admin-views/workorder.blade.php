@@ -43,17 +43,65 @@
                                 </div>
                             @endif
                             <div class="card-body">
-
-                                <div class="form-group col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-4 d-flex align-items-end">
-                                            <button class="btn btn-info" data-toggle="modal"
-                                                    data-target="#workOrderModal">+ Tambah WorkOrder
-                                            </button>
+                                <div class="form-group">
+                                    <div class="container bg-light shadow-sm rounded p-3 mb-3">
+                                        <div class="row d-flex align-items-center justify-content-between">
+                                            <div class="col-auto">
+                                                <h5 class="text-primary mb-0">Workorder</h5>
+                                            </div>
+                                            <div class="col-auto">
+                                                <button type="button"
+                                                        class="btn btn-primary rounded-circle p-2 d-flex justify-content-center align-items-center"
+                                                        style="width: 40px; height: 40px;" data-toggle="modal"
+                                                        data-target="#workOrderModal">
+                                                    <i class="fas fa-plus text-white"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-12 text-center">
+                                    <p class="text-muted">Tidak ada Workorder</p>
+                                </div>
                                 <div class="container">
+                                    <div class="row" id="workOrderCards">
+                                        @foreach ($workOrderData as $wo)
+                                            <div class="col-12 col-md-4 col-lg-4">
+                                                <div class="card card-primary shadow-sm">
+                                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                                        <h5 class="mb-0">
+                                                            <i class="fas fa-clipboard-list"></i> {{ $wo['work_order_code'] }}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <h6><i class="fas fa-clock"></i> Durasi Pekerjaan:</h6>
+                                                        <div class="progress mb-2">
+                                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ ($wo['work_order_duration'] / 10) * 100 }}%" aria-valuenow="{{ $wo['work_order_duration'] }}" aria-valuemin="0" aria-valuemax="10">
+                                                                {{ $wo['work_order_duration'] }} / 10 Jam
+                                                            </div>
+                                                        </div>
+                                                        <h6><i class="fas fa-briefcase"></i> Nama Workorder:</h6>
+                                                        <p>{{ $wo['work_order_name'] }}</p>
+                                                    </div>
+                                                    <div class="card-footer d-flex justify-content-end">
+                                                        <button class="btn btn-warning fas fa-pencil mr-2"
+                                                                id="buttonEdit"
+                                                                data-toggle="modal"
+                                                                data-target="#workOrderEditModal"
+                                                                data-workorder-id="{{ $wo['id_work_order'] }}"
+                                                                data-workorder-duration="{{ $wo['work_order_duration'] }}">
+                                                        </button>
+                                                        <button class="btn btn-danger fas fa-trash"
+                                                                data-toggle="modal"
+                                                                data-target="#workOrderDeleteModal">
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                               {{-- <div class="container">
                                     <div class="row" id="workOrderCards">
                                         @foreach ($workOrderData as $wo)
                                             <div class="col-12 col-md-4 col-lg-4">
@@ -61,7 +109,7 @@
                                                     <div class="card-header justify-content-between">
                                                         <h4>{{ $wo['work_order_code'] }}</h4>
                                                         <h4>{{ $wo['work_order_name'] }}</h4>
-                                                        <h4>{{ $wo['work_order_duration'] }} Jam </h4>
+                                                        <h4>{{ $wo['work_order_duration'] }}/10 Jam </h4>
                                                     </div>
                                                     <div class="card-body">
                                                         <p>Kode WorkOrder: {{ $wo['work_order_code'] }}</p>
@@ -85,23 +133,24 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                </div>
-                                <div class="container bg-light">
-                                    <div class="row rounded w-100 p-2 mb-2 d-flex align-items-center justify-content-between">
-                                        <h5 class="text-primary mb-0">Pekerjaan</h5>
-                                        <button type="button" class="btn btn-link text-primary mb-0">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-12">
-                                        <div class="col-md-4 d-flex align-items-end">
-                                            <button class="btn btn-info" data-toggle="modal"
-                                                    data-target="#jobModal">+ Tambah Pekerjaan
+                                </div>--}}
+                                <div class="container bg-light shadow-sm rounded p-3 mb-3">
+                                    <div class="row d-flex align-items-center justify-content-between">
+                                        <div class="col-auto">
+                                            <h5 class="text-primary mb-0">Pekerjaan</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="button"
+                                                    class="btn btn-primary rounded-circle p-2 d-flex justify-content-center align-items-center"
+                                                    style="width: 40px; height: 40px;" data-toggle="modal"
+                                                    data-target="#jobModal">
+                                                <i class="fas fa-plus text-white"></i>
                                             </button>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <p class="text-muted">Tidak ada pekerjaan</p>
                                 </div>
                                 <div class="card-footer text-right">
                                     <nav class="d-inline-block">
