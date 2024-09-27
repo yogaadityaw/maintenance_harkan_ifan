@@ -46,6 +46,10 @@ Route::post('/workorder/create', [WorkorderController::class, 'createWorkorder']
 //Route::post('/workorder/add-workorder', [WorkorderController::class, 'addWorkOrder'])->name('workorder-add');
 Route::patch('/workorder/update', [WorkorderController::class, 'editWorkorder'])->name('workorder-edit');
 
+// Route untuk Job
+
+
+
 
 Route::get('/unauthorized', function () {
     return view('error-views.error-403');

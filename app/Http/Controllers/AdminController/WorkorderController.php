@@ -87,9 +87,9 @@ class WorkorderController extends Controller
         }
     }
 
-    public function createJob(Request $request)
+    public function createJob (Request $request)
     {
-
+        
     }
 
     /**

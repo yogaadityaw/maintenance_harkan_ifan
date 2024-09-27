@@ -77,7 +77,7 @@
                                                         <h6><i class="fas fa-clock"></i> Durasi Pekerjaan:</h6>
                                                         <div class="progress mb-2">
                                                             <div class="progress-bar bg-success" role="progressbar" style="width: {{ ($wo['work_order_duration'] / 10) * 100 }}%" aria-valuenow="{{ $wo['work_order_duration'] }}" aria-valuemin="0" aria-valuemax="10">
-                                                                {{ $wo['work_order_duration'] }} / 10 Jam
+                                                                {{ $wo['work_order_duration'] }} / {{ $wo['work_order_duration'] }} Jam
                                                             </div>
                                                         </div>
                                                         <h6><i class="fas fa-briefcase"></i> Nama Workorder:</h6>
@@ -282,7 +282,7 @@
                                 <tbody>
                                 <tr>
                                     <td class="px-2">
-                                        <input type="text" class="form-control" name="jobDate[]"
+                                        <input type="date" class="form-control" name="jobDate[]"
                                                placeholder="Tanggal Pekerjaan">
                                     </td>
                                     <td class="px-2">
@@ -290,12 +290,17 @@
                                                placeholder="Nama Pekerjaan">
                                     </td>
                                     <td class="px-2">
-                                        <input type="text" class="form-control" name="jobWorkOrder[]"
-                                               placeholder="WorkOrder">
+
+{{--                                            <label>Workorder</label>--}}
+                                            <select class="form-control select2" name="work_order_id[]">
+                                                @foreach($workOrderData as $wo)
+                                                    <option value="{{ $wo['id_work_order'] }}"> {{ $wo['work_order_code'] }}-{{$wo['work_order_name'] }}</option>
+                                                @endforeach
+                                            </select>
                                     </td>
                                     <td class="px-2">
                                         <div class="d-flex">
-                                            <input type="text" class="form-control" name="jobDuration[]"
+                                            <input type="number" class="form-control" name="jobDuration[]"
                                                    placeholder="Durasi Pengerjaan">
                                         </div>
                                     </td>
@@ -340,6 +345,15 @@
             const jobsContainer = document.getElementById('jobsContainer');
             let jobCount = 1;
 
+            function generateWorkOrderOptions() {
+                let options = '';
+                const workOrderData = @json($workOrderData);
+                workOrderData.forEach(function(workorder) {
+                    options += `<option value="${workorder.id_work_order}">${workorder. work_order_code}-${workorder.work_order_name}</option>`;
+                });
+                return options;
+            }
+
             function updateJobTitles() {
                 const jobSections = jobsContainer.querySelectorAll('.job-section');
                 jobSections.forEach((section, index) => {
@@ -365,13 +379,18 @@
                 <tbody>
                 <tr>
                     <td class="px-2">
-                        <input type="text" class="form-control" name="jobDate[]" placeholder="Tanggal Pekerjaan">
+                        <input type="date" class="form-control" name="jobDate[]" placeholder="Tanggal Pekerjaan">
                     </td>
                     <td class="px-2">
                         <input type="text" class="form-control" name="jobName[]" placeholder="Nama Pekerjaan">
                     </td>
                     <td class="px-2">
-                        <input type="text" class="form-control" name="jobWorkOrder[]" placeholder="WorkOrder">
+                        <div class="form-group">
+                            <label>Workorder</label>
+                            <select class="form-control select2" name="work_order_id[]">
+                              ${generateWorkOrderOptions()}
+                            </select>
+                        </div>
                     </td>
                     <td class="px-2">
                         <input type="text" class="form-control" name="jobDuration[]" placeholder="Durasi Pengerjaan">
@@ -395,6 +414,8 @@
             updateJobTitles();
         });
     </script>
+
+
 
 @endpush
 
