@@ -76,8 +76,12 @@
                                                     <div class="card-body">
                                                         <h6><i class="fas fa-clock"></i> Durasi Pekerjaan:</h6>
                                                         <div class="progress mb-2">
-                                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ ($wo['work_order_duration'] / 10) * 100 }}%" aria-valuenow="{{ $wo['work_order_duration'] }}" aria-valuemin="0" aria-valuemax="10">
-                                                                {{ $wo['work_order_duration'] }} / {{ $wo['work_order_duration'] }} Jam
+                                                            <div class="progress-bar bg-success" role="progressbar"
+                                                                 style="width: {{ ($wo['work_order_duration'] / 10) * 100 }}%"
+                                                                 aria-valuenow="{{ $wo['work_order_duration'] }}"
+                                                                 aria-valuemin="0" aria-valuemax="10">
+                                                                {{ $wo['work_order_duration'] }}
+                                                                / {{ $wo['work_order_duration'] }} Jam
                                                             </div>
                                                         </div>
                                                         <h6><i class="fas fa-briefcase"></i> Nama Workorder:</h6>
@@ -101,39 +105,6 @@
                                         @endforeach
                                     </div>
                                 </div>
-                               {{-- <div class="container">
-                                    <div class="row" id="workOrderCards">
-                                        @foreach ($workOrderData as $wo)
-                                            <div class="col-12 col-md-4 col-lg-4">
-                                                <div class="card card-primary">
-                                                    <div class="card-header justify-content-between">
-                                                        <h4>{{ $wo['work_order_code'] }}</h4>
-                                                        <h4>{{ $wo['work_order_name'] }}</h4>
-                                                        <h4>{{ $wo['work_order_duration'] }}/10 Jam </h4>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <p>Kode WorkOrder: {{ $wo['work_order_code'] }}</p>
-                                                        <p>Nama Pekerjaan: {{ $wo['work_order_name'] }}</p>
-                                                        <p>Total Jam Kerja: {{ $wo['work_order_duration'] }} Jam</p>
-                                                    </div>
-                                                    <div class="card-footer d-flex justify-content-end ">
-                                                        <button class="btn btn-warning fas fa-pencil mr-2"
-                                                                id="buttonEdit"
-                                                                data-toggle="modal"
-                                                                data-target="#workOrderEditModal"
-                                                                data-workorder-id="{{ $wo['id_work_order'] }}"
-                                                                data-workorder-duration="{{ $wo['work_order_duration'] }}">
-                                                        </button>
-                                                        <button class="btn btn-danger fas fa-trash "
-                                                                data-toggle="modal"
-                                                                data-target="#workOrderDeleteModal">
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>--}}
                                 <div class="container bg-light shadow-sm rounded p-3 mb-3">
                                     <div class="row d-flex align-items-center justify-content-between">
                                         <div class="col-auto">
@@ -162,7 +133,7 @@
                                             </li>
                                             <li class="page-item active"><a class="page-link"
                                                                             href="#">1 <span
-                                                        class="sr-only">(current)</span></a></li>
+                                                            class="sr-only">(current)</span></a></li>
                                             <li class="page-item">
                                                 <a class="page-link"
                                                    href="#">2</a>
@@ -290,13 +261,12 @@
                                                placeholder="Nama Pekerjaan">
                                     </td>
                                     <td class="px-2">
-
-{{--                                            <label>Workorder</label>--}}
-                                            <select class="form-control select2" name="work_order_id[]">
-                                                @foreach($workOrderData as $wo)
-                                                    <option value="{{ $wo['id_work_order'] }}"> {{ $wo['work_order_code'] }}-{{$wo['work_order_name'] }}</option>
-                                                @endforeach
-                                            </select>
+                                        <select class="form-control select2" name="work_order_id[]">
+                                            @foreach($workOrderData as $wo)
+                                                <option value="{{ $wo['id_work_order'] }}"> {{ $wo['work_order_code'] }}
+                                                    - {{$wo['work_order_name'] }}</option>
+                                            @endforeach
+                                        </select>
                                     </td>
                                     <td class="px-2">
                                         <div class="d-flex">
@@ -386,7 +356,6 @@
                     </td>
                     <td class="px-2">
                         <div class="form-group">
-                            <label>Workorder</label>
                             <select class="form-control select2" name="work_order_id[]">
                               ${generateWorkOrderOptions()}
                             </select>
