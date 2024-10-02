@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('stisla.layouts.app')
 
 @section('title', 'Table')
 

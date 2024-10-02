@@ -68,7 +68,8 @@
                                         @foreach ($workOrderData as $wo)
                                             <div class="col-12 col-md-4 col-lg-4">
                                                 <div class="card card-primary shadow-sm">
-                                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                                    <div
+                                                        class="card-header d-flex justify-content-between align-items-center">
                                                         <h5 class="mb-0">
                                                             <i class="fas fa-clipboard-list"></i> {{ $wo['work_order_code'] }}
                                                         </h5>
@@ -120,32 +121,72 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-12 col-md-12 col-lg-12">
+                                    <div class="card">
+
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table-bordered table-md table">
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Tanggal</th>
+                                                        <th>Pekerjaan</th>
+                                                        <th>Kode WO</th>
+                                                        <th>Durasi</th>
+                                                        <th>Aksi</th>
+                                                    </tr>
+
+                                                    @if(isset($jobs) && count($jobs) > 0)
+                                                        @foreach($jobs as $index => $job)
+                                                            <tr>
+                                                                <td>{{ $index + 1 }}</td>
+                                                                <td>{{ $job['job_date'] }}</td>
+                                                                <td>{{ $job['job_name'] }}</td>
+                                                                <td>{{ $job['work_order_code'] }}</td>
+                                                                <td>{{ $job['job_duration'] }}</td>
+                                                                <td>
+                                                                    <button class="btn btn-success fas fa-book mx-1"></button>
+                                                                    <button class="btn btn-warning fas fa-pencil mx-1"></button>
+                                                                    <button class="btn btn-danger fas fa-trash mx-1"></button>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @else
+                                                        <tr>
+                                                            <td colspan="5" class="text-center">Data tidak tersedia</td>
+                                                        </tr>
+                                                    @endif
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer text-right">
+                                            <nav class="d-inline-block">
+                                                <ul class="pagination mb-0">
+                                                    <li class="page-item disabled">
+                                                        <a class="page-link"
+                                                           href="#"
+                                                           tabindex="-1"><i class="fas fa-chevron-left"></i></a>
+                                                    </li>
+                                                    <li class="page-item active"><a class="page-link"
+                                                                                    href="#">1 <span class="sr-only">(current)</span></a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="#">2</a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link"
+                                                                             href="#">3</a></li>
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="#"><i class="fas fa-chevron-right"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-12 text-center">
                                     <p class="text-muted">Tidak ada pekerjaan</p>
-                                </div>
-                                <div class="card-footer text-right">
-                                    <nav class="d-inline-block">
-                                        <ul class="pagination mb-0">
-                                            <li class="page-item disabled">
-                                                <a class="page-link"
-                                                   href="#"
-                                                   tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                                            </li>
-                                            <li class="page-item active"><a class="page-link"
-                                                                            href="#">1 <span
-                                                            class="sr-only">(current)</span></a></li>
-                                            <li class="page-item">
-                                                <a class="page-link"
-                                                   href="#">2</a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link"
-                                                                     href="#">3</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link"
-                                                   href="#"><i class="fas fa-chevron-right"></i></a>
-                                            </li>
-                                        </ul>
-                                    </nav>
                                 </div>
                             </div>
                         </div>
@@ -229,7 +270,7 @@
 <div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="jobModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <form id="createJob" method="" action="">
+        <form id="createJob" method="POST" action="{{route ('job-add')}}">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="jobModalLabel">Tambah Pekerjaan</h5>
@@ -281,6 +322,7 @@
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="button" class="btn btn-link text-primary" id="addMore">+ Tambah Pekerjaan</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </div>
             </div>
@@ -318,8 +360,8 @@
             function generateWorkOrderOptions() {
                 let options = '';
                 const workOrderData = @json($workOrderData);
-                workOrderData.forEach(function(workorder) {
-                    options += `<option value="${workorder.id_work_order}">${workorder. work_order_code}-${workorder.work_order_name}</option>`;
+                workOrderData.forEach(function (workorder) {
+                    options += `<option value="${workorder.id_work_order}">${workorder.work_order_code}-${workorder.work_order_name}</option>`;
                 });
                 return options;
             }
@@ -356,8 +398,11 @@
                     </td>
                     <td class="px-2">
                         <div class="form-group">
+
                             <select class="form-control select2" name="work_order_id[]">
+
                               ${generateWorkOrderOptions()}
+
                             </select>
                         </div>
                     </td>
@@ -383,8 +428,6 @@
             updateJobTitles();
         });
     </script>
-
-
 
 @endpush
 

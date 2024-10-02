@@ -28,6 +28,10 @@ use App\Http\Controllers\AdminController\DashboardController;
 //Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 //Route::prefix('admin')->group(function () {
+Route::get('/testview', function () {
+    return view('stisla.pages.components-table');
+});
+
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard-admin');
 Route::get('/asset', [AssetController::class, 'index'])->name('asset');
 
@@ -48,7 +52,8 @@ Route::patch('/workorder/update', [WorkorderController::class, 'editWorkorder'])
 
 // Route untuk Job
 
-
+Route::post('/job/add-job', [WorkorderController::class, 'createJob'])->name('job-add');
+//Route::get('/job/get-job-data', [WorkorderController::class, 'getJobList'])->name('job-get-data');
 
 
 Route::get('/unauthorized', function () {
