@@ -17,26 +17,15 @@ class WorkorderController extends Controller
     {
         $idTimesheet = $id;
         try {
-            $response = Http::get(env("API_BASE_URL") . '/timesheet/' . $id);
-            $workorder = ApiResponseHelper::extractData($response->json());
-            $workOrderData = $workorder['work_orders'];
+            $responseWorkorder = Http::get(env("API_BASE_URL") . '/workorder/timesheet/' . $id);
+            $responseJob = Http::get(env("API_BASE_URL") . '/job/timesheet/' . $id);
+            $workOrderData = ApiResponseHelper::extractData($responseWorkorder->json());
+            $jobs = ApiResponseHelper::extractData($responseJob->json());
 
-            $jobs = $this->getJobList();
-
-            foreach ($jobs as &$job) {
-                foreach ($workOrderData as $workOrder) {
-                    if ($workOrder['id_work_order'] == $job['work_order_id']) {
-                        $job['work_order_code'] = $workOrder['work_order_code']; // Tambahkan work_order_code ke job
-                    }
-                }
-            }
-
-            if (empty($jobs)) {
-                return view('admin-views.workorder', compact('workOrderData', 'idTimesheet'))->withErrors('Gagal mengambil data jobs');
-            }
 
             return view('admin-views.workorder', compact('workOrderData', 'idTimesheet', 'jobs'));
         } catch (\Exception $e) {
+//
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
@@ -59,7 +48,7 @@ class WorkorderController extends Controller
             $apiRequest = Http::post(env("API_BASE_URL") . '/workorder', data: [
                 'work_order_name' => $request->input('nameworkOrderBaru'),
                 'work_order_code' => $request->input('kodeworkOrderBaru'),
-                'timesheet_id' => $request->input('idTimesheet'),
+                'timesheet_id' => $request->input('idTimeSheet'),
             ]);
 
             $response = $apiRequest->json();
@@ -71,7 +60,7 @@ class WorkorderController extends Controller
                 return redirect()->back()->with('error', 'Work Order gagal dibuat');
             }
             return view('admin-views.workorder');
-//            dd($workorder);
+
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
@@ -142,17 +131,17 @@ class WorkorderController extends Controller
 
     }
 
-    public function getJobList()
-    {
-        try {
-            $response = Http::timeout(5)->retry(3, 100)->get(env("API_BASE_URL") . '/job');
-            $jobs = ApiResponseHelper::extractData($response->json());
-
-            return $jobs;
-        } catch (\Exception $e) {
-            return [];
-        }
-    }
+//    public function getJobList()
+//    {
+//        try {
+//            $response = Http::timeout(5)->retry(3, 100)->get(env("API_BASE_URL") . '/job');
+//            $jobs = ApiResponseHelper::extractData($response->json());
+//
+//            return $jobs;
+//        } catch (\Exception $e) {
+//            return [];
+//        }
+//    }
 
 
 }
