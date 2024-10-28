@@ -4,14 +4,11 @@
 
 @push('style')
     <!-- CSS Libraries -->
-    <link rel="stylesheet"
-          href="{{ asset('library/bootstrap-daterangepicker/daterangepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/bootstrap-daterangepicker/daterangepicker.css') }}">
 
-    <link rel="stylesheet"
-          href="{{ asset('library/prismjs/themes/prism.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/prismjs/themes/prism.min.css') }}">
 
-    <link rel="stylesheet"
-          href="{{ asset('library/select2/dist/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/select2/dist/css/select2.min.css') }}">
 @endpush
 
 @section('main')
@@ -51,10 +48,9 @@
                                             </div>
                                             <div class="col-auto">
                                                 <button type="button"
-                                                        class="btn btn-primary rounded-circle p-2 d-flex justify-content-center align-items-center"
-                                                        style="width: 40px; height: 40px;" data-toggle="modal"
-                                                        data-target="#workOrderModal"
-                                                        data-idTimesheet-id="{{ $idTimesheet }}">
+                                                    class="btn btn-primary rounded-circle p-2 d-flex justify-content-center align-items-center"
+                                                    style="width: 40px; height: 40px;" data-toggle="modal"
+                                                    data-target="#workOrderModal" data-idTimesheet-id="{{ $idTimesheet }}">
                                                     <i class="fas fa-plus text-white"></i>
                                                 </button>
                                             </div>
@@ -70,16 +66,17 @@
                                                         <div
                                                             class="card-header d-flex justify-content-between align-items-center">
                                                             <h5 class="mb-0">
-                                                                <i class="fas fa-clipboard-list"></i> {{ $wo['work_order_code'] }}
+                                                                <i class="fas fa-clipboard-list"></i>
+                                                                {{ $wo['work_order_code'] }}
                                                             </h5>
                                                         </div>
                                                         <div class="card-body">
                                                             <h6><i class="fas fa-clock"></i> Durasi Pekerjaan:</h6>
                                                             <div class="progress mb-2">
                                                                 <div class="progress-bar bg-success" role="progressbar"
-                                                                     style="width: {{ ($wo['work_order_duration'] / 10) * 100 }}%"
-                                                                     aria-valuenow="{{ $wo['work_order_duration'] }}"
-                                                                     aria-valuemin="0" aria-valuemax="10">
+                                                                    style="width: {{ ($wo['work_order_duration'] / 10) * 100 }}%"
+                                                                    aria-valuenow="{{ $wo['work_order_duration'] }}"
+                                                                    aria-valuemin="0" aria-valuemax="10">
                                                                     {{ $wo['work_order_duration'] }}
                                                                     / {{ $wo['work_order_duration'] }} Jam
                                                                 </div>
@@ -89,15 +86,16 @@
                                                         </div>
                                                         <div class="card-footer d-flex justify-content-end">
                                                             <button class="btn btn-warning fas fa-pencil mr-2"
-                                                                    id="buttonEdit"
-                                                                    data-toggle="modal"
-                                                                    data-target="#workOrderEditModal"
-                                                                    data-workorder-id="{{ $wo['id_work_order'] }}"
-                                                                    data-workorder-duration="{{ $wo['work_order_duration'] }}">
+                                                                id="buttonEdit" data-toggle="modal"
+                                                                data-target="#workOrderEditModal"
+                                                                data-workorder-id="{{ $wo['id_work_order'] }}"
+                                                                data-workorder-duration="{{ $wo['work_order_duration'] }}"
+                                                                data-workorder-code="{{ $wo['work_order_code'] }}"
+                                                                data-workorder-name="{{ $wo['work_order_name'] }}">
                                                             </button>
-                                                            <button class="btn btn-danger fas fa-trash"
-                                                                    data-toggle="modal"
-                                                                    data-target="#workOrderDeleteModal">
+                                                            <button class="btn btn-danger fas fa-trash" data-toggle="modal"
+                                                                data-target="#workOrderDeleteModal"
+                                                                onclick="setDeleteWorkOrderId('{{ $wo['id_work_order'] }}')">
                                                             </button>
                                                         </div>
                                                     </div>
@@ -117,9 +115,9 @@
                                         </div>
                                         <div class="col-auto">
                                             <button type="button"
-                                                    class="btn btn-primary rounded-circle p-2 d-flex justify-content-center align-items-center"
-                                                    style="width: 40px; height: 40px;" data-toggle="modal"
-                                                    data-target="#jobModal">
+                                                class="btn btn-primary rounded-circle p-2 d-flex justify-content-center align-items-center"
+                                                style="width: 40px; height: 40px;" data-toggle="modal"
+                                                data-target="#jobModal">
                                                 <i class="fas fa-plus text-white"></i>
                                             </button>
                                         </div>
@@ -127,7 +125,6 @@
                                 </div>
                                 <div class="col-12 col-md-12 col-lg-12">
                                     <div class="card">
-
                                         <div class="card-body">
                                             <div class="table-responsive">
                                                 <table class="table-bordered table-md table">
@@ -139,8 +136,8 @@
                                                         <th>Durasi</th>
                                                         <th>Aksi</th>
                                                     </tr>
-                                                    @if(isset($jobs) && count($jobs) > 0)
-                                                        @foreach($jobs as $index => $job)
+                                                    @if (isset($jobs) && count($jobs) > 0)
+                                                        @foreach ($jobs as $index => $job)
                                                             <tr>
                                                                 <td>{{ $index + 1 }}</td>
                                                                 <td>{{ $job['job_date'] }}</td>
@@ -169,22 +166,19 @@
                                             <nav class="d-inline-block">
                                                 <ul class="pagination mb-0">
                                                     <li class="page-item disabled">
-                                                        <a class="page-link"
-                                                           href="#"
-                                                           tabindex="-1"><i class="fas fa-chevron-left"></i></a>
+                                                        <a class="page-link" href="#" tabindex="-1"><i
+                                                                class="fas fa-chevron-left"></i></a>
                                                     </li>
-                                                    <li class="page-item active"><a class="page-link"
-                                                                                    href="#">1 <span class="sr-only">(current)</span></a>
+                                                    <li class="page-item active"><a class="page-link" href="#">1 <span
+                                                                class="sr-only">(current)</span></a>
                                                     </li>
                                                     <li class="page-item">
-                                                        <a class="page-link"
-                                                           href="#">2</a>
+                                                        <a class="page-link" href="#">2</a>
                                                     </li>
-                                                    <li class="page-item"><a class="page-link"
-                                                                             href="#">3</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
                                                     <li class="page-item">
-                                                        <a class="page-link"
-                                                           href="#"><i class="fas fa-chevron-right"></i></a>
+                                                        <a class="page-link" href="#"><i
+                                                                class="fas fa-chevron-right"></i></a>
                                                     </li>
                                                 </ul>
                                             </nav>
@@ -205,7 +199,7 @@
 
 <!-- Modal untuk menambah WorkOrder -->
 <div class="modal fade" id="workOrderModal" tabindex="-1" role="dialog" aria-labelledby="workOrderModalLabel"
-     aria-hidden="true">
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form id="CreateWorkOrder" method="POST" action="{{ route('workorder.create', $idTimesheet) }}">
             <div class="modal-content">
@@ -223,11 +217,11 @@
                         <input type="hidden" value="{{ $idTimesheet }}" name="idTimeSheet">
                         <label for="workOrderKode">Kode WorkOrder</label>
                         <input type="text" class="form-control" id="workOrderKode" name="kodeworkOrderBaru"
-                               placeholder="Masukkan kode WorkOrder">
+                            placeholder="Masukkan kode WorkOrder">
                         <br>
                         <label for="workOrderName">Nama WorkOrder</label>
                         <input type="text" class="form-control" id="workOrderName" name="nameworkOrderBaru"
-                               placeholder="Masukkan nama WorkOrder">
+                            placeholder="Masukkan nama WorkOrder">
                     </div>
                     <!-- Tambahkan field lain sesuai kebutuhan -->
                 </div>
@@ -240,9 +234,9 @@
     </div>
 </div>
 
-{{--modal untuk edit workorder--}}
-<div class="modal fade" id="workOrderEditModal" tabindex="-1" role="dialog" aria-labelledby="workOrderEditModalLabel"
-     aria-hidden="true">
+{{-- modal untuk edit workorder --}}
+<div class="modal fade" id="workOrderEditModal" tabindex="-1" role="dialog"
+    aria-labelledby="workOrderEditModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -251,15 +245,22 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="editWorkOrderForm" method="POST" action="">
+            <form id="editWorkOrderForm" method="POST" action="{{ route('workorder-edit') }}">
                 @csrf
-                @method('PATCH')
+                @method('PUT')
                 <div class="modal-body">
-                    <input type="hidden" name="work_order_id" id="workOrderId">
+                    <input type="hidden" name="work_order_id" id="workOrderId" required>
+
                     <div class="form-group">
                         <label for="workOrderDuration">Durasi (Jam)</label>
                         <input type="number" class="form-control" id="workOrderDuration" name="work_order_duration"
-                               min="0" required>
+                            min="0" required>
+                        <label for="workOrderCode">Kode Workorder</label>
+                        <input type="number" class="form-control" id="workOrderCode" name="work_order_code"
+                            required>
+                        <label for="workOrderDuration">Nama Workorder</label>
+                        <input type="text" class="form-control" id="workOrderName" name="work_order_name"
+                            required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -271,10 +272,14 @@
     </div>
 </div>
 
+<!-- Delete Work Order Modal -->
+
+
+
 <div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="jobModalLabel"
-     aria-hidden="true">
+    aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <form id="createJob" method="POST" action="{{route ('job-add')}}">
+        <form id="createJob" method="POST" action="{{ route('job-add') }}">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="jobModalLabel">Tambah Pekerjaan</h5>
@@ -290,42 +295,44 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <p class="font-weight-bold p-2 mb-0" id="jobTitle1">Pekerjaan 1</p>
                                 <button type="button" class="btn btn-link text-danger remove-job d-none"
-                                        aria-label="Remove">
+                                    aria-label="Remove">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </div>
                             <table class="table">
                                 <tbody>
-                                <tr>
-                                    <td class="px-2">
-                                        <input type="date" class="form-control" name="jobDate[]"
-                                               placeholder="Tanggal Pekerjaan">
-                                    </td>
-                                    <td class="px-2">
-                                        <input type="text" class="form-control" name="jobName[]"
-                                               placeholder="Nama Pekerjaan">
-                                    </td>
-                                    <td class="px-2">
-                                        <select class="form-control select2" name="work_order_id[]">
-                                            @foreach($workOrderData as $wo)
-                                                <option value="{{ $wo['id_work_order'] }}"> {{ $wo['work_order_code'] }}
-                                                    - {{$wo['work_order_name'] }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td class="px-2">
-                                        <div class="d-flex">
-                                            <input type="number" class="form-control" name="jobDuration[]"
-                                                   placeholder="Durasi Pengerjaan">
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td class="px-2">
+                                            <input type="date" class="form-control" name="jobDate[]"
+                                                placeholder="Tanggal Pekerjaan">
+                                        </td>
+                                        <td class="px-2">
+                                            <input type="text" class="form-control" name="jobName[]"
+                                                placeholder="Nama Pekerjaan">
+                                        </td>
+                                        <td class="px-2">
+                                            <select class="form-control select2" name="work_order_id[]">
+                                                @foreach ($workOrderData as $wo)
+                                                    <option value="{{ $wo['id_work_order'] }}">
+                                                        {{ $wo['work_order_code'] }}
+                                                        - {{ $wo['work_order_name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td class="px-2">
+                                            <div class="d-flex">
+                                                <input type="number" class="form-control" name="jobDuration[]"
+                                                    placeholder="Durasi Pengerjaan">
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-link text-primary" id="addMore">+ Tambah Pekerjaan</button>
+                        <button type="button" class="btn btn-link text-primary" id="addMore">+ Tambah
+                            Pekerjaan</button>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </div>
@@ -341,38 +348,49 @@
     <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            //     $('#workOrderEditModal').on('show.bs.modal', function (event) {
-            //         let button = $(event.relatedTarget);
-            //         let workOrderId = button.data('workorder-id');
-            //         let workOrderDuration = button.data('workorder-duration');
-            //
-            //         let modal = $(this);
-            //         modal.find('#workOrderId').val(workOrderId);
-            //         modal.find('#workOrderDuration').val(workOrderDuration);
-            //     });
-            // });
+        document.addEventListener('DOMContentLoaded', function() {
+            $('#workOrderEditModal').on('show.bs.modal', function(event) {
+                // Clear any existing values in the modal fields to avoid old data persisting
+                var modal = $(this);
+                modal.find('#workOrderId').val('');
+                modal.find('#workOrderDuration').val('');
+                modal.find('#workOrderCode').val('');
+                modal.find('#workOrderName').val('');
 
-            $('#workOrderModal').on('show.bs.modal', function (event) {
-                let button = $(event.relatedTarget);
-                let timesheetId = button.data('timesheet-id'); // Pastikan ini sesuai dengan atribut yang diberikan
+                // Set up event listener for loading data when the modal is fully shown
+                $('#workOrderEditModal').on('shown.bs.modal', function() {
+                    var button = $(event.relatedTarget); // Button that triggered the modal
+                    var workOrderId = button.data('workorder-id');
+                    var workOrderDuration = button.data('workorder-duration');
+                    var workOrderCode = button.data('workorder-code');
+                    var workOrderName = button.data('workorder-name');
 
-                let modal = $(this);
-                modal.find('input[name="idTimesheet"]').val(timesheetId); // Assign ID timesheet ke hidden input
+                    // Set values into the input fields within the modal
+                    modal.find('#workOrderId').val(workOrderId);
+                    modal.find('#workOrderDuration').val(workOrderDuration);
+                    modal.find('#workOrderCode').val(workOrderCode);
+                    modal.find('#workOrderName').val(workOrderName);
+                });
+            });
+
+            // Remove data and event listeners when modal is hidden
+            $('#workOrderEditModal').on('hidden.bs.modal', function() {
+                $(this).off('shown.bs.modal');
             });
         });
-
     </script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const jobsContainer = document.getElementById('jobsContainer');
             let jobCount = 1;
 
             function generateWorkOrderOptions() {
                 let options = '';
                 const workOrderData = @json($workOrderData);
-                workOrderData.forEach(function (workorder) {
-                    options += `<option value="${workorder.id_work_order}">${workorder.work_order_code}-${workorder.work_order_name}</option>`;
+                workOrderData.forEach(function(workorder) {
+                    options +=
+                        `<option value="${workorder.id_work_order}">${workorder.work_order_code}-${workorder.work_order_name}</option>`;
                 });
                 return options;
             }
@@ -387,7 +405,7 @@
                 });
             }
 
-            document.getElementById('addMore').addEventListener('click', function () {
+            document.getElementById('addMore').addEventListener('click', function() {
                 jobCount++;
                 const newJobSection = document.createElement('div');
                 newJobSection.classList.add('job-section');
@@ -425,7 +443,7 @@
                 updateJobTitles();
             });
 
-            jobsContainer.addEventListener('click', function (event) {
+            jobsContainer.addEventListener('click', function(event) {
                 if (event.target.closest('.remove-job')) {
                     event.target.closest('.job-section').remove();
                     jobCount--;
@@ -436,5 +454,3 @@
         });
     </script>
 @endpush
-
-

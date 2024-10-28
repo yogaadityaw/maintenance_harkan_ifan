@@ -5,10 +5,8 @@
 @push('style')
     <!-- CSS Libraries -->
 
-    <link rel="stylesheet"
-          href="{{ asset('library/bootstrap-daterangepicker/daterangepicker.css') }}">
-    <link rel="stylesheet"
-          href="{{ asset('library/prismjs/themes/prism.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/bootstrap-daterangepicker/daterangepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/prismjs/themes/prism.min.css') }}">
 @endpush
 
 @section('main')
@@ -27,8 +25,8 @@
                             <div class="card-body">
                                 <div class="form-group col-md-6">
                                     <div class="row">
-                                        <button class="btn btn-info" data-toggle="modal"
-                                                data-target="#timeSheetModal">+ Tambah Timehseet
+                                        <button class="btn btn-info" data-toggle="modal" data-target="#timeSheetModal">+
+                                            Tambah Timehseet
                                         </button>
                                     </div>
                                 </div>
@@ -41,7 +39,7 @@
                                             <th> Nama Timesheet</th>
                                             <th>Aksi</th>
                                         </tr>
-                                        @foreach($timesheet as $index => $item)
+                                        @foreach ($timesheet as $index => $item)
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $item['timesheet_date'] ?? '-' }}</td>
@@ -51,18 +49,16 @@
                                                 <td>
                                                     <!-- Tambahkan aksi seperti tombol edit/hapus di sini -->
                                                     <a href="{{ route('workorder', $item['id_timesheet']) }}"
-                                                       class="btn btn-success fas fa-book"></a>
-                                                    <button type="button"
-                                                            class="btn btn-warning editButton fas fa-pencil"
-                                                            data-toggle="modal"
-                                                            data-target="#editTimeSheetModal"
-                                                            data-timesheet-id="{{ $item['id_timesheet'] }}"
-                                                            data-timesheet-name="{{ $item['timesheet_name'] }}"
-                                                            data-timesheet-date="{{ $item['timesheet_date'] }}">
+                                                        class="btn btn-success fas fa-book"></a>
+                                                    <button type="button" class="btn btn-warning editButton fas fa-pencil"
+                                                        data-toggle="modal" data-target="#editTimeSheetModal"
+                                                        data-timesheet-id="{{ $item['id_timesheet'] }}"
+                                                        data-timesheet-name="{{ $item['timesheet_name'] }}"
+                                                        data-timesheet-date="{{ $item['timesheet_date'] }}">
                                                     </button>
                                                     <button type="button" class="btn btn-danger fas fa-trash"
-                                                            data-toggle="modal" data-target="#deleteTimeSheetModal"
-                                                            data-timesheet-id="{{ $item['id_timesheet'] }}">
+                                                        data-toggle="modal" data-target="#deleteTimeSheetModal"
+                                                        data-timesheet-id="{{ $item['id_timesheet'] }}">
                                                     </button>
                                                 </td>
                                             </tr>
@@ -75,22 +71,17 @@
                                 <nav class="d-inline-block">
                                     <ul class="pagination mb-0">
                                         <li class="page-item disabled">
-                                            <a class="page-link"
-                                               href="#"
-                                               tabindex="-1"><i class="fas fa-chevron-left"></i></a>
+                                            <a class="page-link" href="#" tabindex="-1"><i
+                                                    class="fas fa-chevron-left"></i></a>
                                         </li>
-                                        <li class="page-item active"><a class="page-link"
-                                                                        href="#">1 <span
+                                        <li class="page-item active"><a class="page-link" href="#">1 <span
                                                     class="sr-only">(current)</span></a></li>
                                         <li class="page-item">
-                                            <a class="page-link"
-                                               href="#">2</a>
+                                            <a class="page-link" href="#">2</a>
                                         </li>
-                                        <li class="page-item"><a class="page-link"
-                                                                 href="#">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
                                         <li class="page-item">
-                                            <a class="page-link"
-                                               href="#"><i class="fas fa-chevron-right"></i></a>
+                                            <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
                                         </li>
                                     </ul>
                                 </nav>
@@ -105,11 +96,11 @@
     </div>
 @endsection
 
-{{--modal untuk menambah timesheet--}}
+{{-- modal untuk menambah timesheet --}}
 <div class="modal fade" id="timeSheetModal" tabindex="-1" role="dialog" aria-labelledby="timeSheetModalLabel"
-     aria-hidden="true">
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form id="CreateTimesheet" method="POST" action="{{route('timesheet-create')}}">
+        <form id="CreateTimesheet" method="POST" action="{{ route('timesheet-create') }}">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="timeSheetModalLabel">Tambah Timesheet</h5>
@@ -127,18 +118,18 @@
                             <label for="tanggalTimeSheet">Tanggal Timesheet</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
+                                    <span class="input-group-text">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
                                 </div>
                                 <input type="text" class="form-control datepicker" id="tanggalTimeSheet"
-                                       name="tanggalTimeSheet">
+                                    name="tanggalTimeSheet">
                             </div>
                         </div>
 
                         <label for="timeSheetName">Nama Timesheet</label>
                         <input type="text" class="form-control" id="timeSheetName" name="nametimeSheetBaru"
-                               placeholder="Masukkan nama Timesheet">
+                            placeholder="Masukkan nama Timesheet">
                     </div>
                     <!-- Tambahkan field lain sesuai kebutuhan -->
                 </div>
@@ -151,9 +142,9 @@
     </div>
 </div>
 
-{{--modal untuk edit timesheet--}}
-<div class="modal fade" id="editTimeSheetModal" tabindex="-1" role="dialog" aria-labelledby="editTimeSheetModalLabel"
-     aria-hidden="true">
+{{-- modal untuk edit timesheet --}}
+<div class="modal fade" id="editTimeSheetModal" tabindex="-1" role="dialog"
+    aria-labelledby="editTimeSheetModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form id="editTimesheetForm" method="POST" action="{{ route('timesheet-edit') }}">
             <div class="modal-content">
@@ -173,18 +164,18 @@
                             <label for="tanggalTimeSheet">Tanggal Timesheet</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
+                                    <span class="input-group-text">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
                                 </div>
                                 <input type="text" class="form-control datepicker" id="tanggalTimeSheet"
-                                       name="tanggalTimeSheet">
+                                    name="tanggalTimeSheet">
                             </div>
                         </div>
 
                         <label for="timeSheetName">Nama Timesheet</label>
                         <input type="text" class="form-control" id="timeSheetName" name="nametimeSheet"
-                               placeholder="Masukkan nama Timesheet">
+                            placeholder="Masukkan nama Timesheet">
                     </div>
                     <!-- Tambahkan field lain sesuai kebutuhan -->
                 </div>
@@ -197,11 +188,11 @@
     </div>
 </div>
 
-{{--modal delete--}}
+{{-- modal delete --}}
 
 {{-- Modal untuk konfirmasi delete --}}
 <div class="modal fade" id="deleteTimeSheetModal" tabindex="-1" role="dialog"
-     aria-labelledby="deleteTimeSheetModalLabel" aria-hidden="true">
+    aria-labelledby="deleteTimeSheetModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form id="deleteTimesheetForm" method="POST" action="{{ route('timesheet-delete') }}">
             <div class="modal-content">
@@ -237,8 +228,8 @@
     <script src="{{ asset('library/sweetalert/dist/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/page/modules-sweetalert.js') }}"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            $('#editTimeSheetModal').on('show.bs.modal', function (event) {
+        document.addEventListener('DOMContentLoaded', function() {
+            $('#editTimeSheetModal').on('show.bs.modal', function(event) {
                 let button = $(event.relatedTarget);
                 let timesheetId = button.data('timesheet-id');
                 let timesheetName = button.data('timesheet-name');
@@ -252,7 +243,7 @@
                 modal.find('#tanggalTimeSheet').val(formattedDate);
             });
 
-            $('#deleteTimeSheetModal').on('show.bs.modal', function (event) {
+            $('#deleteTimeSheetModal').on('show.bs.modal', function(event) {
                 let button = $(event.relatedTarget);
                 let timesheetId = button.data('timesheet-id');
 
@@ -261,5 +252,4 @@
             });
         });
     </script>
-
 @endpush

@@ -46,6 +46,9 @@ Route::delete('/timesheet/delete', [TimeSheetController::class, 'delete'])->name
 //  Route untuk work order
 Route::get('/workorder/{id}', [WorkorderController::class, 'index'])->name('workorder');
 Route::post('/workorder/create', [WorkorderController::class, 'createWorkorder'])->name('workorder.create');
+Route::put('/workorder/update', [WorkorderController::class, 'editWorkorder'])->name('workorder-edit');
+
+
 
 
 

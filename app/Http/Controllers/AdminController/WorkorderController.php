@@ -20,12 +20,13 @@ class WorkorderController extends Controller
             $responseWorkorder = Http::get(env("API_BASE_URL") . '/workorder/timesheet/' . $id);
             $responseJob = Http::get(env("API_BASE_URL") . '/job/timesheet/' . $id);
             $workOrderData = ApiResponseHelper::extractData($responseWorkorder->json());
+
             $jobs = ApiResponseHelper::extractData($responseJob->json());
 
 
             return view('admin-views.workorder', compact('workOrderData', 'idTimesheet', 'jobs'));
         } catch (\Exception $e) {
-//
+            //
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
@@ -52,6 +53,7 @@ class WorkorderController extends Controller
             ]);
 
             $response = $apiRequest->json();
+            // dd($response); fitur create sudah berjalan tinggal fitur yang lainnya.
 
             if ($response['success']) {
 
@@ -60,7 +62,6 @@ class WorkorderController extends Controller
                 return redirect()->back()->with('error', 'Work Order gagal dibuat');
             }
             return view('admin-views.workorder');
-
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
@@ -75,28 +76,34 @@ class WorkorderController extends Controller
 
         try {
 
-            $apiRequest = Http::patch(env("API_BASE_URL") . '/workorder/update-duration/' . $request->input('work_order_id'), data: [
+            $apiRequest = Http::put(env("API_BASE_URL") . '/workorder/' . $request->input('work_order_id'), data: [
                 'work_order_duration' => $request->input('work_order_duration'),
+                'work_order_name' => $request->input('work_order_name'),
+                'work_order_code' => $request->input('work_order_code'),
             ]);
 
+
             $response = $apiRequest->json();
+
+
 
             if ($response['success']) {
                 return redirect()->back()->with('success', 'Work Order berhasil diubah');
             } else {
                 return redirect()->back()->with('error', 'Work Order gagal diubah');
             }
-
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
     }
 
+
+
     public function createJob(Request $request)
     {
 
 
-// Ambil semua data dari form
+        // Ambil semua data dari form
         $data = $request->validate([
             'jobDate' => 'required|array',
             'jobName' => 'required|array',
@@ -128,20 +135,19 @@ class WorkorderController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-
     }
 
-//    public function getJobList()
-//    {
-//        try {
-//            $response = Http::timeout(5)->retry(3, 100)->get(env("API_BASE_URL") . '/job');
-//            $jobs = ApiResponseHelper::extractData($response->json());
-//
-//            return $jobs;
-//        } catch (\Exception $e) {
-//            return [];
-//        }
-//    }
+    //    public function getJobList()
+    //    {
+    //        try {
+    //            $response = Http::timeout(5)->retry(3, 100)->get(env("API_BASE_URL") . '/job');
+    //            $jobs = ApiResponseHelper::extractData($response->json());
+    //
+    //            return $jobs;
+    //        } catch (\Exception $e) {
+    //            return [];
+    //        }
+    //    }
 
 
 }
