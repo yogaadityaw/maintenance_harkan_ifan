@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController\WorkorderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController\DashboardController;
+use App\Http\Controllers\AdminController\DetailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +48,11 @@ Route::delete('/timesheet/delete', [TimeSheetController::class, 'delete'])->name
 Route::get('/workorder/{id}', [WorkorderController::class, 'index'])->name('workorder');
 Route::post('/workorder/create', [WorkorderController::class, 'createWorkorder'])->name('workorder.create');
 Route::put('/workorder/update', [WorkorderController::class, 'editWorkorder'])->name('workorder-edit');
+Route::delete('/workorder/delete', [WorkorderController::class, 'deleteWorkorder'])->name('workorder-delete');
 
+
+
+Route::get('job-workorder', [DetailController::class, 'getJobsWorkorder'])->name('job-workorder');
 
 
 
@@ -56,6 +61,8 @@ Route::put('/workorder/update', [WorkorderController::class, 'editWorkorder'])->
 
 Route::post('/job/add-job', [WorkorderController::class, 'createJob'])->name('job-add');
 //Route::get('/job/get-job-data', [WorkorderController::class, 'getJobList'])->name('job-get-data');
+Route::delete('/job/delete-job', [WorkorderController::class, 'deleteJob'])->name('job.delete');
+Route::put('/job/update-job', [WorkorderController::class, 'editJob'])->name('job-edit');
 
 
 Route::get('/unauthorized', function () {

@@ -96,6 +96,21 @@ class WorkorderController extends Controller
             dd($e->getMessage());
         }
     }
+    public function deleteWorkorder(Request $request)
+    {
+        try {
+            $apiRequest = Http::delete(env("API_BASE_URL") . '/workorder/' . $request->input('work_order_id'));
+            $response = $apiRequest->json();
+
+            if ($response['success']) {
+                return redirect()->back()->with('success', 'Work Order berhasil dihapus');
+            } else {
+                return redirect()->back()->with('error', 'Work Order gagal dihapus');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
 
 
 
@@ -148,6 +163,44 @@ class WorkorderController extends Controller
     //            return [];
     //        }
     //    }
+
+    function editJob(Request $request){
+        dd($request->all());
+        try {
+            $apiRequest = Http::put(env("API_BASE_URL") . '/job/' . $request->input('id_job'), data: [
+                'job_name' => $request->input('job_name'),
+                'job_duration' => $request->input('job_duration'),
+                'job_date' => $request->input('job_date'),
+                'work_order_id' => $request->input('work_order_id'),
+            ]);
+
+            $response = $apiRequest->json();
+
+            if ($response['success']) {
+                return redirect()->back()->with('success', 'Job berhasil diubah');
+            } else {
+                return redirect()->back()->with('error', 'Job gagal diubah');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    function deleteJob(Request $request)
+    {
+        try {
+            $apiRequest = Http::delete(env("API_BASE_URL") . '/job/' . $request->input('job_id'));
+            $response = $apiRequest->json();
+
+            if ($response['success']) {
+                return redirect()->back()->with('success', 'Job berhasil dihapus');
+            } else {
+                return redirect()->back()->with('error', 'Job gagal dihapus');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
 
 
 }
