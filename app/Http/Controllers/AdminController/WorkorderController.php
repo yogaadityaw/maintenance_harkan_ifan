@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\AdminController;
 
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+
+use App\Helper\DateTimeParser;
 use App\Helper\ApiResponseHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class WorkorderController extends Controller
@@ -22,6 +25,11 @@ class WorkorderController extends Controller
             $workOrderData = ApiResponseHelper::extractData($responseWorkorder->json());
 
             $jobs = ApiResponseHelper::extractData($responseJob->json());
+
+            $jobs = collect($jobs)->map(function ($job) {
+                $job['job_date'] = Carbon::parse($job['job_date'])->format('Y-m-d');
+                return $job;
+            });
 
 
             return view('admin-views.workorder', compact('workOrderData', 'idTimesheet', 'jobs'));
@@ -164,13 +172,18 @@ class WorkorderController extends Controller
     //        }
     //    }
 
-    function editJob(Request $request){
-        dd($request->all());
+    public function editJob(Request $request)
+    {
+        // dd($request->all());
         try {
-            $apiRequest = Http::put(env("API_BASE_URL") . '/job/' . $request->input('id_job'), data: [
+            // Mengonversi format job_date menjadi yy-mm-dd sebelum dikirim ke API
+            $jobDate = Carbon::createFromFormat('Y-m-d', $request->input('job_date'))->format('Y-m-d');
+
+            // Mengirimkan data ke API dengan format yang benar
+            $apiRequest = Http::put(env("API_BASE_URL") . '/job/' . $request->input('id_job'), [
+               'job_date' => $request->input('job_date'),
                 'job_name' => $request->input('job_name'),
                 'job_duration' => $request->input('job_duration'),
-                'job_date' => $request->input('job_date'),
                 'work_order_id' => $request->input('work_order_id'),
             ]);
 

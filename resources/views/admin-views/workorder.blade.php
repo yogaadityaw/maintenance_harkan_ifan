@@ -134,7 +134,7 @@
                                                         <th>Tanggal</th>
                                                         <th>Pekerjaan</th>
                                                         <th>Kode WO</th>
-                                                        <th>Work Order Id</th>
+                                                        <th>Nama Work Order</th>
                                                         <th>Durasi</th>
                                                         <th>Aksi</th>
                                                     </tr>
@@ -145,13 +145,14 @@
                                                                 <td>{{ $job['job_date'] }}</td>
                                                                 <td>{{ $job['job_name'] }}</td>
                                                                 <td>{{ $job['work_order_code'] }}</td>
-                                                                <td>{{ $job['work_order_id'] }}</td>
+                                                                <td>{{ $job['work_order_name'] }}</td>
                                                                 <td>{{ $job['job_duration'] }}</td>
                                                                 <td>
 
 
                                                                     <button class="btn btn-warning fas fa-pencil mx-1"
                                                                         data-toggle="modal" data-target="#jobEditModal"
+                                                                        data-job-date="{{$job['job_date']}}"
                                                                         data-job-id="{{ $job['id_job'] }}"
                                                                         data-workorder-id="{{ $job['work_order_id'] }}"
                                                                         data-job-name="{{ $job['job_name'] }}"
@@ -165,8 +166,6 @@
                                                                         onclick="showDeleteModal({{ $job['id_job'] }})"
                                                                         data-toggle="modal"
                                                                         data-target="#deleteModal"></button>
-
-
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -398,7 +397,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="jobId" name="id_job">
+                    <input type="hidden" id="jobId" name="id_job">
+                    <div class="mb-3">
+                        <label for="JobDate" class="form-label">Tanggal Pekerjaan</label>
+                        <input type="date" id="jobDate" name="job_date" class="form-control" required>
+                    </div>
+
                     <div class="mb-3">
                         <label for="workOrderCode" class="form-label">Kode Workorder</label>
                         <select class="form-control select2" name="work_order_id">
@@ -594,6 +598,7 @@
                 var modal = $(this);
 
                 // Clear any existing values in the modal fields
+                modal.find('#jobDate').val('');
                 modal.find('#jobId').val('');
                 modal.find('#workOrderId').val('');
                 modal.find('#jobName').val('');
@@ -603,12 +608,14 @@
 
                 // Ambil data yang dikirimkan pada tombol yang memicu modal
                 var button = $(event.relatedTarget); // tombol yang memicu modal
+                var jobDate = button.data('job-date');
                 var jobId = button.data('job-id');
                 var workOrderId = button.data('workorder-id');
                 var jobName = button.data('job-name');
                 var jobDuration = button.data('job-duration');
 
                 // Set data ke dalam modal
+                modal.find('#jobDate').val(jobDate);
                 modal.find('#jobId').val(jobId);
                 modal.find('#workOrderId').val(workOrderId);
                 modal.find('#jobName').val(jobName);
@@ -629,5 +636,11 @@
             // Show the modal
             $('#deleteModal').modal('show');
         }
+    </script>
+
+    <script>
+        $('#jobDate').datepicker({
+    dateFormat: 'dd-mm-yy', // Format untuk menampilkan di input
+});
     </script>
 @endpush
