@@ -54,6 +54,8 @@ Route::delete('/workorder/delete', [WorkorderController::class, 'deleteWorkorder
 
 Route::get('job-workorder', [DetailController::class, 'getJobsWorkorder'])->name('job-workorder');
 
+Route::get('/get-job-byWorkorder', [DetailController::class, 'getJobsWorkorder'])->name('job-byworkorder');
+
 
 
 
