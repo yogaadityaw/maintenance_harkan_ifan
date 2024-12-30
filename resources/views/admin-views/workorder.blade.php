@@ -73,12 +73,14 @@
                                                         <div class="card-body">
                                                             <h6><i class="fas fa-clock"></i> Durasi Pekerjaan:</h6>
                                                             <div class="progress mb-2">
-                                                                <div class="progress-bar bg-success" role="progressbar"
-                                                                    style="width: {{ ($wo['work_order_duration'] / 10) * 100 }}%"
+                                                                <div class="progress-bar {{ $wo['work_order_duration'] <= 0 ? 'bg-danger' : 'bg-success' }}"
+                                                                    role="progressbar"
+                                                                    style="width: {{ $wo['work_order_duration_limit'] > 0 ? ($wo['work_order_duration'] / $wo['work_order_duration_limit']) * 100 : 0 }}%"
                                                                     aria-valuenow="{{ $wo['work_order_duration'] }}"
-                                                                    aria-valuemin="0" aria-valuemax="10">
+                                                                    aria-valuemin="0"
+                                                                    aria-valuemax="{{ $wo['work_order_duration_limit'] }}">
                                                                     {{ $wo['work_order_duration'] }}
-                                                                    / {{ $wo['work_order_duration'] }} Jam
+                                                                    / {{ $wo['work_order_duration_limit'] }} Jam Tersisa
                                                                 </div>
                                                             </div>
                                                             <h6><i class="fas fa-briefcase"></i> Nama Workorder:</h6>
@@ -152,7 +154,7 @@
 
                                                                     <button class="btn btn-warning fas fa-pencil mx-1"
                                                                         data-toggle="modal" data-target="#jobEditModal"
-                                                                        data-job-date="{{$job['job_date']}}"
+                                                                        data-job-date="{{ $job['job_date'] }}"
                                                                         data-job-id="{{ $job['id_job'] }}"
                                                                         data-workorder-id="{{ $job['work_order_id'] }}"
                                                                         data-job-name="{{ $job['job_name'] }}"
@@ -640,7 +642,7 @@
 
     <script>
         $('#jobDate').datepicker({
-    dateFormat: 'dd-mm-yy', // Format untuk menampilkan di input
-});
+            dateFormat: 'dd-mm-yy', // Format untuk menampilkan di input
+        });
     </script>
 @endpush

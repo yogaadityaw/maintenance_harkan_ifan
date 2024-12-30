@@ -19,6 +19,7 @@ class TimeSheetController extends Controller
     {
         try {
             $response = Http::get(env("API_BASE_URL") . '/timesheet');
+
             $timesheet = ApiResponseHelper::extractData($response->json());
 
             foreach ($timesheet as &$item) {
