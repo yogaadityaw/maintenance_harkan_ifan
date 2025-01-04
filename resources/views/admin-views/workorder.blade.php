@@ -92,7 +92,7 @@
                                                                 id="buttonEdit" data-toggle="modal"
                                                                 data-target="#workOrderEditModal"
                                                                 data-workorder-id="{{ $wo['id_work_order'] }}"
-                                                                data-workorder-duration="{{ $wo['work_order_duration'] }}"
+                                                                data-workorder-duration-limit="{{ $wo['work_order_duration_limit'] }}"
                                                                 data-workorder-code="{{ $wo['work_order_code'] }}"
                                                                 data-workorder-name="{{ $wo['work_order_name'] }}">
                                                             </button>
@@ -267,14 +267,14 @@
                 @method('PUT')
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="workOrderDuration">Durasi (Jam)</label>
+                        <label for="workOrderDurationLimit">Durasi (Jam)</label>
                         <input type="hidden" class="form-control" id="workOrderId" name="work_order_id" required>
-                        <input type="number" class="form-control" id="workOrderDuration" name="work_order_duration"
-                            min="0" required>
+                        <input type="number" class="form-control" id="workOrderDurationLimit"
+                            name="work_order_duration_limit" min="0" required>
                         <label for="workOrderCode">Kode Workorder</label>
                         <input type="number" class="form-control" id="workOrderCode" name="work_order_code"
                             required>
-                        <label for="workOrderDuration">Nama Workorder</label>
+                        <label for="workOrderName">Nama Workorder</label>
                         <input type="text" class="form-control" id="workOrderName" name="work_order_name"
                             required>
                     </div>
@@ -287,6 +287,7 @@
         </div>
     </div>
 </div>
+
 
 
 <!-- Delete Confirmation Modal -->
@@ -478,7 +479,7 @@
                 // Clear any existing values in the modal fields to avoid old data persisting
                 var modal = $(this);
                 modal.find('#workOrderId').val('');
-                modal.find('#workOrderDuration').val('');
+                modal.find('#workOrderDurationLimit').val('');
                 modal.find('#workOrderCode').val('');
                 modal.find('#workOrderName').val('');
 
@@ -486,13 +487,13 @@
                 $('#workOrderEditModal').on('shown.bs.modal', function() {
                     var button = $(event.relatedTarget); // Button that triggered the modal
                     var workOrderId = button.data('workorder-id');
-                    var workOrderDuration = button.data('workorder-duration');
+                    var workOrderDurationLimit = button.data('workorder-duration-limit');
                     var workOrderCode = button.data('workorder-code');
                     var workOrderName = button.data('workorder-name');
 
                     // Set values into the input fields within the modal
                     modal.find('#workOrderId').val(workOrderId);
-                    modal.find('#workOrderDuration').val(workOrderDuration);
+                    modal.find('#workOrderDurationLimit').val(workOrderDurationLimit);
                     modal.find('#workOrderCode').val(workOrderCode);
                     modal.find('#workOrderName').val(workOrderName);
                 });

@@ -85,7 +85,7 @@ class WorkorderController extends Controller
         try {
 
             $apiRequest = Http::put(env("API_BASE_URL") . '/workorder/' . $request->input('work_order_id'), data: [
-                'work_order_duration' => $request->input('work_order_duration'),
+                'work_order_duration_limit' => $request->input('work_order_duration_limit'),
                 'work_order_name' => $request->input('work_order_name'),
                 'work_order_code' => $request->input('work_order_code'),
             ]);
