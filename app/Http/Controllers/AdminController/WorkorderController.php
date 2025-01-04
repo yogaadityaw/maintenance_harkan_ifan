@@ -124,9 +124,6 @@ class WorkorderController extends Controller
 
     public function createJob(Request $request)
     {
-
-
-        // Ambil semua data dari form
         $data = $request->validate([
             'jobDate' => 'required|array',
             'jobName' => 'required|array',
@@ -134,18 +131,33 @@ class WorkorderController extends Controller
             'jobDuration' => 'required|array',
         ]);
 
-
-        // Loop setiap pekerjaan yang diinputkan
         $jobs = [];
+        $workOrderDurations = [];
+
         for ($i = 0; $i < count($data['jobDate']); $i++) {
+            $workOrderId = (int)$data['work_order_id'][$i];
+            $jobDuration = (int)$data['jobDuration'][$i];
+
+            // Validasi total durasi
+            if (!isset($workOrderDurations[$workOrderId])) {
+                $workOrder = Http::get(env("API_BASE_URL") . "/workorder/{$workOrderId}")->json();
+                $workOrderDurations[$workOrderId] = $workOrder['data']['work_order_duration'];
+            }
+
+            $workOrderDurations[$workOrderId] -= $jobDuration;
+
+            if ($workOrderDurations[$workOrderId] < 0) {
+                return redirect()->back()->with('error', "Durasi pekerjaan melebihi batas untuk Work Order ID {$workOrderId}");
+            }
+
             $jobs[] = [
                 'job_name' => $data['jobName'][$i],
-                'job_duration' => (int)$data['jobDuration'][$i],
+                'job_duration' => $jobDuration,
                 'job_date' => date('c', strtotime($data['jobDate'][$i])),
-                'work_order_id' => (int)$data['work_order_id'][$i],
+                'work_order_id' => $workOrderId,
             ];
         }
-        // Kirim data ke API backend
+
         try {
             $apiRequest = Http::post(env("API_BASE_URL") . '/job', $jobs);
             $response = $apiRequest->json();
@@ -159,7 +171,6 @@ class WorkorderController extends Controller
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
-
     //    public function getJobList()
     //    {
     //        try {
@@ -181,7 +192,7 @@ class WorkorderController extends Controller
 
             // Mengirimkan data ke API dengan format yang benar
             $apiRequest = Http::put(env("API_BASE_URL") . '/job/' . $request->input('id_job'), [
-               'job_date' => $request->input('job_date'),
+                'job_date' => $request->input('job_date'),
                 'job_name' => $request->input('job_name'),
                 'job_duration' => $request->input('job_duration'),
                 'work_order_id' => $request->input('work_order_id'),
@@ -214,6 +225,4 @@ class WorkorderController extends Controller
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
-
-
 }

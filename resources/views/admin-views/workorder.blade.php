@@ -202,9 +202,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 text-center">
+                                {{-- <div class="col-12 text-center">
                                     <p class="text-muted">Tidak ada pekerjaan</p>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -523,59 +523,50 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const jobsContainer = document.getElementById('jobsContainer');
+            const addMoreButton = document.getElementById('addMore');
             let jobCount = 1;
 
-            function generateWorkOrderOptions() {
-                let options = '';
+            const workOrderOptions = (() => {
                 const workOrderData = @json($workOrderData);
-                workOrderData.forEach(function(workorder) {
-                    options +=
-                        `<option value="${workorder.id_work_order}">${workorder.work_order_code}-${workorder.work_order_name}</option>`;
-                });
-                return options;
-            }
+                return workOrderData.map(workorder =>
+                    `<option value="${workorder.id_work_order}">${workorder.work_order_code}-${workorder.work_order_name}</option>`
+                ).join('');
+            })();
 
             function updateJobTitles() {
                 const jobSections = jobsContainer.querySelectorAll('.job-section');
                 jobSections.forEach((section, index) => {
-                    const jobTitle = section.querySelector('p');
-                    jobTitle.textContent = `Pekerjaan ${index + 1}`;
-                    const removeButton = section.querySelector('.remove-job');
-                    removeButton.classList.toggle('d-none', index === 0);
+                    section.querySelector('p').textContent = `Pekerjaan ${index + 1}`;
+                    section.querySelector('.remove-job').classList.toggle('d-none', index === 0);
                 });
             }
 
-            document.getElementById('addMore').addEventListener('click', function() {
-                jobCount++;
+            addMoreButton.addEventListener('click', function() {
                 const newJobSection = document.createElement('div');
                 newJobSection.classList.add('job-section');
                 newJobSection.innerHTML = `
             <div class="d-flex justify-content-between align-items-center">
-                <p class="font-weight-bold p-2 mb-0">Pekerjaan ${jobCount}</p>
+                <p class="font-weight-bold p-2 mb-0">Pekerjaan ${++jobCount}</p>
                 <button type="button" class="btn btn-link text-danger remove-job" aria-label="Remove">
                     <i class="fas fa-trash-alt"></i>
                 </button>
             </div>
             <table class="table">
                 <tbody>
-                <tr>
-                    <td class="px-2">
-                        <input type="date" class="form-control" name="jobDate[]" placeholder="Tanggal Pekerjaan">
-                    </td>
-                    <td class="px-2">
-                        <input type="text" class="form-control" name="jobName[]" placeholder="Nama Pekerjaan">
-                    </td>
-                    <td class="px-2">
-                        <div class="form-group">
-                            <select class="form-control select2" name="work_order_id[]">
-                            ${generateWorkOrderOptions()}
-                            </select>
-                        </div>
-                    </td>
-                    <td class="px-2">
-                        <input type="text" class="form-control" name="jobDuration[]" placeholder="Durasi Pengerjaan">
-                    </td>
-                </tr>
+                    <tr>
+                        <td class="px-2">
+                            <input type="date" class="form-control" name="jobDate[]" placeholder="Tanggal Pekerjaan">
+                        </td>
+                        <td class="px-2">
+                            <input type="text" class="form-control" name="jobName[]" placeholder="Nama Pekerjaan">
+                        </td>
+                        <td class="px-2">
+                            <select class="form-control select2" name="work_order_id[]">${workOrderOptions}</select>
+                        </td>
+                        <td class="px-2">
+                            <input type="number" class="form-control" name="jobDuration[]" placeholder="Durasi Pengerjaan">
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         `;
@@ -590,6 +581,7 @@
                     updateJobTitles();
                 }
             });
+
             updateJobTitles();
         });
     </script>
