@@ -48,8 +48,12 @@
                                                 <!-- Menampilkan nama timesheet -->
                                                 <td>
                                                     <!-- Tambahkan aksi seperti tombol edit/hapus di sini -->
+
                                                     <a href="{{ route('workorder', $item['id_timesheet']) }}"
                                                         class="btn btn-success fas fa-book"></a>
+                                                    <button type="button" class="btn btn-primary printButton fas fa-print"
+                                                        data-timesheet-id="{{ $item['id_timesheet'] }}"></button>
+
                                                     <button type="button" class="btn btn-warning editButton fas fa-pencil"
                                                         data-toggle="modal" data-target="#editTimeSheetModal"
                                                         data-timesheet-id="{{ $item['id_timesheet'] }}"
@@ -95,6 +99,8 @@
         </section>
     </div>
 @endsection
+
+
 
 {{-- modal untuk menambah timesheet --}}
 <div class="modal fade" id="timeSheetModal" tabindex="-1" role="dialog" aria-labelledby="timeSheetModalLabel"
@@ -249,6 +255,24 @@
 
                 let modal = $(this);
                 modal.find('#deleteTimesheetId').val(timesheetId);
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Event listener untuk tombol print
+            document.querySelectorAll('.printButton').forEach(button => {
+                button.addEventListener('click', function() {
+                    const timesheetId = this.getAttribute('data-timesheet-id');
+
+                    if (timesheetId) {
+                        // Arahkan ke route untuk print
+                        const url = `{{ route('timesheet-print') }}?idTimeSheet=${timesheetId}`;
+                        window.open(url, '_blank'); // Membuka file dalam tab baru
+                    } else {
+                        alert('ID timesheet tidak ditemukan.');
+                    }
+                });
             });
         });
     </script>

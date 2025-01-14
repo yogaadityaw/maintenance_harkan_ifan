@@ -55,7 +55,6 @@ class TimeSheetController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-
     }
 
     /**
@@ -128,10 +127,46 @@ class TimeSheetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function print(Request $request)
     {
-        //
+        $id = $request->query('idTimeSheet'); // Ambil parameter dari query string
+
+        try {
+            // Kirim request ke API
+            $response = Http::get(env("API_BASE_URL") . '/timesheet/export/' . $id);
+
+            if ($response->successful()) {
+                // Ambil konten file dari respons API
+                $fileContent = $response->body();
+
+                // Ambil nama file dari header Content-Disposition (jika disediakan)
+                $fileName = $response->header('Content-Disposition');
+
+                if ($fileName) {
+                    // Ekstrak nama file dari header (misalnya: "attachment; filename=example.pdf")
+                    preg_match('/filename="?([^"]+)"?/', $fileName, $matches);
+                    $fileName = $matches[1] ?? "timesheet_{$id}.pdf"; // Default jika nama tidak ditemukan
+                } else {
+                    $fileName = "timesheet_{$id}.pdf"; // Default jika header tidak ada
+                }
+
+                // Kembalikan respons file untuk diunduh
+                return response($fileContent)
+                    ->header('Content-Type', 'application/pdf')
+                    ->header('Content-Disposition', "attachment; filename={$fileName}");
+            }
+
+            // Jika respons gagal
+            return redirect()->back()->with('error', 'Gagal memproses file dari server.');
+        } catch (\Exception $e) {
+            // Tangani jika terjadi error
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
+
+
+
+
 
     /**
      * Remove the specified resource from storage.

@@ -43,6 +43,11 @@ Route::post('/timesheet/create', [TimeSheetController::class, 'createTimesheet']
 Route::get('/timesheet/get-timesheet-data/{id}', [TimeSheetController::class, 'getDataById'])->name('timesheet-get-data');
 Route::put('/timeeet/update', [TimeSheetController::class, 'edit'])->name('timesheet-edit');
 Route::delete('/timesheet/delete', [TimeSheetController::class, 'delete'])->name('timesheet-delete');
+Route::get('/timesheet/print', [TimeSheetController::class, 'print'])->name('timesheet-print');
+
+
+
+
 
 //  Route untuk work order
 Route::get('/workorder/{id}', [WorkorderController::class, 'index'])->name('workorder');
